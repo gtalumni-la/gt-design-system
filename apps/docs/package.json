@@ -1,0 +1,23 @@
+{
+  "name": "@gtalumni-la/docs",
+  "version": "0.1.0",
+  "description": "GT Design System Documentation",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "build:storybook": "cd ../storybook && pnpm build",
+    "build:all": "pnpm build:storybook && pnpm build"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0",
+    "@types/node": "^20.0.0",
+    "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "@gtalumni-la/tokens": "workspace:*",
+    "@gtalumni-la/react": "workspace:*"
+  }
+}

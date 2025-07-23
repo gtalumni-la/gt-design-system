@@ -1,0 +1,31 @@
+# Source files
+src/
+*.ts
+*.tsx
+!dist/**/*.d.ts
+
+# Build artifacts
+.turbo/
+.changeset/
+
+# Development files
+tsconfig.json
+.eslintrc.json
+
+# Documentation  
+README.md
+LICENSE
+
+# Node modules
+node_modules/
+
+# Testing
+*.test.*
+*.spec.*
+__tests__/
+coverage/
+
+# Misc
+.DS_Store
+.env*
+*.log

@@ -1,0 +1,137 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please fill out the sections below.
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: ✨ Feature Description
+      description: A clear and concise description of the feature you'd like to see
+      placeholder: Describe the feature...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: 🤔 Problem Statement
+      description: What problem does this feature solve? What's the use case?
+      placeholder: Explain the problem this feature would solve...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: How would you like this feature to work?
+      placeholder: Describe your proposed solution...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: 📦 Package
+      description: Which package should this feature be added to?
+      options:
+        - "@gtalumni-la/tokens"
+        - "@gtalumni-la/react"
+        - "@gtalumni-la/typescript"
+        - "@gtalumni-la/eslint"
+        - "New package"
+        - "Other"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: 🏷️ Feature Type
+      description: What type of feature is this?
+      options:
+        - "New component"
+        - "Component enhancement"
+        - "New design token"
+        - "Token enhancement"
+        - "API improvement"
+        - "Developer experience"
+        - "Documentation"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: api-design
+    attributes:
+      label: 🔧 API Design (if applicable)
+      description: If this is a component or API feature, show how it would be used
+      render: tsx
+      placeholder: |
+        // Example usage
+        import { NewComponent } from '@gtalumni-la/react';
+
+        function App() {
+          return (
+            <NewComponent
+              prop1="value"
+              prop2={true}
+            >
+              Content
+            </NewComponent>
+          );
+        }
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: What alternatives have you considered?
+      placeholder: Describe alternative solutions...
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 🔍 Additional Context
+      description: Add any other context, screenshots, or examples
+      placeholder: Any additional information...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 📊 Priority
+      description: How important is this feature to you?
+      options:
+        - "Low - Nice to have"
+        - "Medium - Would be helpful"
+        - "High - Important for my use case"
+        - "Critical - Blocking my work"
+
+  - type: dropdown
+    id: breaking-change
+    attributes:
+      label: ⚠️ Breaking Change
+      description: Would this be a breaking change?
+      options:
+        - "No - Backward compatible"
+        - "Yes - Breaking change"
+        - "Unknown"
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have considered how this fits with the existing design system
+          required: true
+        - label: I have provided clear use cases for this feature
+          required: true

@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+coverage/
+.turbo/
+
+# VitePress
+.vitepress/dist/
+.vitepress/cache/
+
+# Storybook
+storybook-static/
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# Temporary files
+*.tmp
+*.temp

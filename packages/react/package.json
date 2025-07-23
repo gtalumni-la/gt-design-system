@@ -1,0 +1,104 @@
+{
+  "name": "@gtalumni-la/react",
+  "version": "0.1.0",
+  "description": "React - Georgia Tech Alumni Association React UI Components",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.esm.js"
+    }
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gtalumni-la/gt-design-system.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/gtalumni-la/gt-design-system/tree/main/packages/react",
+  "bugs": {
+    "url": "https://github.com/gtalumni-la/gt-design-system/issues"
+  },
+  "author": "Georgia Tech Alumni Association",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:check": "npm run type-check && rollup -c",
+    "dev": "rollup -c --watch",
+    "clean": "rimraf dist",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,md}\"",
+    "type-check": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "prebuild": "npm run clean"
+  },
+  "dependencies": {
+    "@gtalumni-la/tokens": "workspace:*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@gtalumni-la/eslint": "workspace:*",
+    "@gtalumni-la/typescript": "workspace:*",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "eslint": "^9.0.0",
+    "jsdom": "^23.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.45.1",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@storybook/react": "^8.6.14"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "keywords": [
+    "buzz",
+    "react",
+    "components",
+    "ui",
+    "georgia-tech",
+    "georgia-tech-alumni",
+    "design-system",
+    "gtalumni-la",
+    "typescript",
+    "accessibility",
+    "yellow-jacket",
+    "alpha",
+    "development"
+  ]
+}

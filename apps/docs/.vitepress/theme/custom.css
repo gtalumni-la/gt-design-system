@@ -1,0 +1,95 @@
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+
+:root {
+  /* GT Brand Colors */
+  --vp-c-brand-1: #b3a369; /* GT Gold */
+  --vp-c-brand-2: #857437; /* Dark Gold */
+  --vp-c-brand-3: #eaaa00; /* Light Gold */
+  --vp-c-brand-soft: rgba(179, 163, 105, 0.14);
+
+  /* GT Navy for accents */
+  --vp-c-text-1: #003057;
+  --vp-c-text-2: rgba(0, 48, 87, 0.78);
+  --vp-c-text-3: rgba(0, 48, 87, 0.56);
+
+  /* Custom spacing */
+  --vp-layout-max-width: 1440px;
+}
+
+/* Dark mode overrides */
+.dark {
+  --vp-c-brand-1: #eaaa00;
+  --vp-c-brand-2: #b3a369;
+  --vp-c-brand-3: #857437;
+  --vp-c-brand-soft: rgba(234, 170, 0, 0.14);
+}
+
+/* Custom styles for GT branding */
+.VPNavBar .logo {
+  height: 32px;
+}
+
+/* Code block styling */
+.vp-code-group {
+  margin: 16px 0;
+}
+
+/* Custom container for design tokens */
+.token-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.token-preview .color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--vp-c-border);
+}
+
+.token-preview .token-info {
+  flex: 1;
+}
+
+.token-preview .token-name {
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.token-preview .token-value {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.875em;
+  color: var(--vp-c-text-2);
+}
+
+/* Component preview styling */
+.component-preview {
+  padding: 24px;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 8px;
+  margin: 16px 0;
+  background: var(--vp-c-bg-soft);
+}
+
+.component-preview + .language-tsx,
+.component-preview + .language-jsx {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .token-preview {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

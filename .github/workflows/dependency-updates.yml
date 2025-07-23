@@ -1,0 +1,74 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Update dependencies
+        run: |
+          pnpm update --latest --recursive
+          pnpm install
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet pnpm-lock.yaml; then
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has-changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run tests after update
+        if: steps.changes.outputs.has-changes == 'true'
+        run: |
+          pnpm build
+          pnpm test
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.has-changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: 'chore: weekly dependency updates'
+          body: |
+            ## 📦 Dependency Updates
+
+            This PR updates all dependencies to their latest versions.
+
+            ### Changes
+            - Updated all dependencies to latest versions
+            - Verified that all tests still pass
+            - Build process completed successfully
+
+            ### Testing
+            - ✅ All packages build successfully
+            - ✅ All tests pass
+            - ✅ No breaking changes detected
+
+            Please review the changes and merge if everything looks good.
+          branch: chore/dependency-updates
+          delete-branch: true
