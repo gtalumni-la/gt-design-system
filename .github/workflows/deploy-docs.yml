@@ -30,7 +30,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
@@ -46,8 +46,8 @@ jobs:
       - name: Build React components
         run: pnpm --filter @gtalumni-la/react build
 
-      - name: Build Storybook
-        run: pnpm --filter storybook build
+      # - name: Build Storybook
+      #   run: pnpm --filter storybook build
 
       - name: Build VitePress documentation
         run: pnpm --filter @gtalumni-la/docs build
@@ -60,13 +60,13 @@ jobs:
           mkdir -p dist
           # Copy VitePress build (main site)
           cp -r apps/docs/.vitepress/dist/* dist/
-          # Copy Storybook to /storybook subdirectory (if it exists)
-          if [ -d "apps/storybook/storybook-static" ]; then
-            mkdir -p dist/storybook
-            cp -r apps/storybook/storybook-static/* dist/storybook/
-          else
-            echo "Storybook build not found, skipping..."
-          fi
+          # Storybook disabled temporarily due to build issues
+          # if [ -d "apps/storybook/storybook-static" ]; then
+          #   mkdir -p dist/storybook
+          #   cp -r apps/storybook/storybook-static/* dist/storybook/
+          # else
+          #   echo "Storybook build not found, skipping..."
+          # fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
