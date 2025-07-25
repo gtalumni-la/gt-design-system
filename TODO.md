@@ -2,6 +2,13 @@
 
 ## 🚨 High Priority
 
+### Current Issues to Fix
+
+- [ ] Fix Storybook build compatibility issue with Vite 7.x and Node.js crypto API
+- [ ] Re-enable Storybook deployment in GitHub Actions workflow
+- [ ] Fix broken internal links in documentation (currently ignored via `ignoreDeadLinks`)
+- [ ] Setup Husky git hooks properly (currently showing as not executable)
+
 ### Documentation & Developer Experience
 
 - [x] Add a `README.md` to each package
@@ -38,7 +45,10 @@
     - [x] Changesets
     - [x] Publish
     - [x] Documentation deployment
-    - [x] Storybook deployment
+    - [ ] Storybook deployment (temporarily disabled due to vite compatibility issue)
+- [x] Create GitHub repository (`gtalumni-la/gt-design-system`)
+- [x] Configure GitHub Pages deployment
+- [x] Setup automated documentation deployment workflow
 
 ## 🔧 Medium Priority
 
@@ -54,10 +64,14 @@
 ### Documentation & Learning
 
 - [x] Add Vitepress for documentation site
+- [x] Deploy documentation site to GitHub Pages (<https://gtalumni-la.github.io/gt-design-system/>)
+- [x] Create comprehensive documentation structure with versioning support
+- [x] Add migration guides for breaking changes
+- [x] Document design token usage patterns with interactive previews
+- [x] Add architecture documentation
+- [x] Add accessibility guidelines documentation
 - [ ] Create design system guidelines
 - [ ] Add usage examples for each component
-- [ ] Document design token usage patterns
-- [ ] Add migration guides for breaking changes
 
 ### Code Quality & Architecture
 
@@ -104,3 +118,28 @@
 - [ ] Add bundle size monitoring
 - [ ] Create performance testing suite
 - [ ] Add cross-browser testing
+
+## ✅ Recently Completed (July 2025)
+
+### Repository & Deployment Infrastructure
+
+- [x] Created GitHub repository under `gtalumni-la/gt-design-system`
+- [x] Configured GitHub Pages with GitHub Actions deployment
+- [x] Successfully deployed VitePress documentation site
+- [x] Setup automated deployment workflow with proper Node.js 20 support
+- [x] Configured commitlint for PR-only validation with custom GT-specific scopes
+- [x] Created comprehensive documentation including:
+  - [x] Getting started guide
+  - [x] Component documentation structure
+  - [x] Design token documentation with interactive color previews
+  - [x] Migration guides
+  - [x] Architecture documentation
+  - [x] Accessibility guidelines
+  - [x] Versioning system support
+
+### Build & Development Workflow
+
+- [x] Fixed pnpm lockfile compatibility issues in CI
+- [x] Resolved VitePress dead link validation (temporarily with `ignoreDeadLinks`)
+- [x] Upgraded CI environment to Node.js 20 for better compatibility
+- [x] Successfully integrated design tokens and React component builds in deployment pipeline
