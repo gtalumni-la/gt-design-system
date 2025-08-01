@@ -46,8 +46,8 @@ jobs:
       - name: Build React components
         run: pnpm --filter @gtalumni-la/react build
 
-      # - name: Build Storybook
-      #   run: pnpm --filter storybook build
+      - name: Build Storybook
+        run: pnpm --filter storybook build
 
       - name: Build VitePress documentation
         run: pnpm --filter @gtalumni-la/docs build
@@ -60,13 +60,14 @@ jobs:
           mkdir -p dist
           # Copy VitePress build (main site)
           cp -r apps/docs/.vitepress/dist/* dist/
-          # Storybook disabled temporarily due to build issues
-          # if [ -d "apps/storybook/storybook-static" ]; then
-          #   mkdir -p dist/storybook
-          #   cp -r apps/storybook/storybook-static/* dist/storybook/
-          # else
-          #   echo "Storybook build not found, skipping..."
-          # fi
+          # Copy Storybook build
+          if [ -d "apps/storybook/storybook-static" ]; then
+            mkdir -p dist/storybook
+            cp -r apps/storybook/storybook-static/* dist/storybook/
+          else
+            echo "Error: Storybook build not found"
+            exit 1
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
