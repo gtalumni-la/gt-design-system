@@ -57,13 +57,21 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir -p dist
+          # For PRs, deploy to a preview subdirectory
+          if [[ $GITHUB_REF == refs/pull/* ]]; then
+            PR_NUMBER=$(echo $GITHUB_REF | cut -d '/' -f 3)
+            BASE_DIR="dist/pr-preview/$PR_NUMBER"
+          else
+            BASE_DIR="dist"
+          fi
+
+          mkdir -p "$BASE_DIR"
           # Copy VitePress build (main site)
-          cp -r apps/docs/.vitepress/dist/* dist/
+          cp -r apps/docs/.vitepress/dist/* "$BASE_DIR/"
           # Copy Storybook build
           if [ -d "apps/storybook/storybook-static" ]; then
-            mkdir -p dist/storybook
-            cp -r apps/storybook/storybook-static/* dist/storybook/
+            mkdir -p "$BASE_DIR/storybook"
+            cp -r apps/storybook/storybook-static/* "$BASE_DIR/storybook/"
           else
             echo "Error: Storybook build not found"
             exit 1
@@ -74,9 +82,8 @@ jobs:
         with:
           path: dist
 
-  # Deployment job (only on main branch)
+  # Deployment job
   deploy:
-    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -86,3 +93,25 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Comment PR with preview URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.issue.number;
+            const baseUrl = '${{ steps.deployment.outputs.page_url }}';
+            const previewUrl = `${baseUrl}pr-preview/${prNumber}/`;
+            const storybookUrl = `${previewUrl}storybook/`;
+
+            const comment = `🚀 Preview deployment is ready!
+
+            - Documentation: ${previewUrl}
+            - Storybook: ${storybookUrl}`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: comment
+            });
