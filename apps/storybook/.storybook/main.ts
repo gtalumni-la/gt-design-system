@@ -27,8 +27,10 @@ const config: StorybookConfig = {
     },
   },
   viteFinal: async (config) => {
+    console.log('Vite mode:', config.mode);
+
     // Ensure Vite can resolve the monorepo packages
-    if (config.resolve) {
+    if (config.resolve && config.mode !== 'production') {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@gtalumni-la/tokens':
