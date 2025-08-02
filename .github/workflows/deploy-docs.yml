@@ -46,7 +46,7 @@ jobs:
         run: pnpm --filter @gtalumni-la/react build
 
       - name: Build Storybook
-        run: pnpm --filter storybook build
+        run: pnpm --filter @gtalumni-la/storybook build
 
       - name: Build VitePress documentation
         run: pnpm --filter @gtalumni-la/docs build

@@ -9,7 +9,9 @@
   "exports": {
     ".": {
       "import": "./dist/js/tokens.js",
-      "require": "./dist/js/tokens.js"
+      "require": "./dist/js/tokens.js",
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/js/tokens.js"
     },
     "./css": "./dist/css/variables.css",
     "./scss": "./dist/scss/_variables.scss",
