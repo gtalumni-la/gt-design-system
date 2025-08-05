@@ -22,7 +22,7 @@ export default [
       'coverage/**',
       'node_modules/**',
       '.turbo/**',
-      '.vitepress/dist/**',
+      '.vitepress/**',
       'storybook-static/**',
       '.rollup.cache/**',
       'storybook-out/**',
