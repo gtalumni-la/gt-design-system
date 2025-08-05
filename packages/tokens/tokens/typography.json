@@ -1,106 +1,106 @@
 {
   "gt": {
     "font": {
-    "family": {
-      "primary": {
-        "value": "\"Roboto Slab\", Georgia, serif",
-        "comment": "Georgia Tech primary font family for headings"
+      "family": {
+        "primary": {
+          "value": "\"Roboto Slab\", Georgia, serif",
+          "comment": "Georgia Tech primary font family for headings"
+        },
+        "secondary": {
+          "value": "\"Source Sans Pro\", Arial, sans-serif",
+          "comment": "Georgia Tech secondary font family for body text"
+        },
+        "monospace": {
+          "value": "\"Roboto Mono\", Consolas, monospace",
+          "comment": "Monospace font for code"
+        }
       },
-      "secondary": {
-        "value": "\"Source Sans Pro\", Arial, sans-serif", 
-        "comment": "Georgia Tech secondary font family for body text"
+      "size": {
+        "xs": {
+          "value": "0.75rem",
+          "comment": "12px - Extra small text"
+        },
+        "sm": {
+          "value": "0.875rem",
+          "comment": "14px - Small text"
+        },
+        "base": {
+          "value": "1rem",
+          "comment": "16px - Base font size"
+        },
+        "lg": {
+          "value": "1.125rem",
+          "comment": "18px - Large text"
+        },
+        "xl": {
+          "value": "1.25rem",
+          "comment": "20px - Extra large text"
+        },
+        "2xl": {
+          "value": "1.5rem",
+          "comment": "24px - 2X large text"
+        },
+        "3xl": {
+          "value": "1.875rem",
+          "comment": "30px - 3X large text"
+        },
+        "4xl": {
+          "value": "2.25rem",
+          "comment": "36px - 4X large text"
+        },
+        "5xl": {
+          "value": "3rem",
+          "comment": "48px - 5X large text"
+        },
+        "6xl": {
+          "value": "3.75rem",
+          "comment": "60px - 6X large text"
+        }
       },
-      "monospace": {
-        "value": "\"Roboto Mono\", Consolas, monospace",
-        "comment": "Monospace font for code"
-      }
-    },
-    "size": {
-      "xs": {
-        "value": "0.75rem",
-        "comment": "12px - Extra small text"
+      "weight": {
+        "light": {
+          "value": "300",
+          "comment": "Light font weight"
+        },
+        "normal": {
+          "value": "400",
+          "comment": "Normal font weight"
+        },
+        "medium": {
+          "value": "500",
+          "comment": "Medium font weight"
+        },
+        "semibold": {
+          "value": "600",
+          "comment": "Semi-bold font weight"
+        },
+        "bold": {
+          "value": "700",
+          "comment": "Bold font weight"
+        },
+        "extrabold": {
+          "value": "800",
+          "comment": "Extra bold font weight"
+        }
       },
-      "sm": {
-        "value": "0.875rem",
-        "comment": "14px - Small text"
-      },
-      "base": {
-        "value": "1rem",
-        "comment": "16px - Base font size"
-      },
-      "lg": {
-        "value": "1.125rem",
-        "comment": "18px - Large text"
-      },
-      "xl": {
-        "value": "1.25rem",
-        "comment": "20px - Extra large text"
-      },
-      "2xl": {
-        "value": "1.5rem",
-        "comment": "24px - 2X large text"
-      },
-      "3xl": {
-        "value": "1.875rem",
-        "comment": "30px - 3X large text"
-      },
-      "4xl": {
-        "value": "2.25rem",
-        "comment": "36px - 4X large text"
-      },
-      "5xl": {
-        "value": "3rem",
-        "comment": "48px - 5X large text"
-      },
-      "6xl": {
-        "value": "3.75rem",
-        "comment": "60px - 6X large text"
-      }
-    },
-    "weight": {
-      "light": {
-        "value": "300",
-        "comment": "Light font weight"
-      },
-      "normal": {
-        "value": "400",
-        "comment": "Normal font weight"
-      },
-      "medium": {
-        "value": "500",
-        "comment": "Medium font weight"
-      },
-      "semibold": {
-        "value": "600",
-        "comment": "Semi-bold font weight"
-      },
-      "bold": {
-        "value": "700",
-        "comment": "Bold font weight"
-      },
-      "extrabold": {
-        "value": "800",
-        "comment": "Extra bold font weight"
-      }
-    },
-    "lineHeight": {
-      "tight": {
-        "value": "1.25",
-        "comment": "Tight line height"
-      },
-      "normal": {
-        "value": "1.5",
-        "comment": "Normal line height"
-      },
-      "relaxed": {
-        "value": "1.625",
-        "comment": "Relaxed line height"
-      },
-      "loose": {
-        "value": "2",
-        "comment": "Loose line height"
+      "lineHeight": {
+        "tight": {
+          "value": "1.25",
+          "comment": "Tight line height"
+        },
+        "normal": {
+          "value": "1.5",
+          "comment": "Normal line height"
+        },
+        "relaxed": {
+          "value": "1.625",
+          "comment": "Relaxed line height"
+        },
+        "loose": {
+          "value": "2",
+          "comment": "Loose line height"
+        }
       }
     }
   }
-}
 }

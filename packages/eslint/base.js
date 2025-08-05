@@ -24,6 +24,9 @@ export default [
       '.turbo/**',
       '.vitepress/dist/**',
       'storybook-static/**',
+      '.rollup.cache/**',
+      'storybook-out/**',
+      'storybook-static/**',
     ],
   },
 

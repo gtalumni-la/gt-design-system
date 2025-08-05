@@ -87,15 +87,6 @@
     "typescript": "^5.0.0",
     "vitest": "^1.0.0"
   },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ]
-  },
   "packageManager": "pnpm@10.14.0",
   "engines": {
     "node": ">=20.0.0",
