@@ -12,85 +12,85 @@
         }
       },
       "secondary": {
-      "blue": {
-        "value": "#0F446C",
-        "comment": "Georgia Tech Secondary Blue"
-      },
-      "gold-light": {
-        "value": "#EAAA00", 
-        "comment": "Georgia Tech Light Gold"
-      },
-      "gold-dark": {
-        "value": "#857437",
-        "comment": "Georgia Tech Dark Gold"
-      }
-    },
-    "neutral": {
-      "white": {
-        "value": "#FFFFFF",
-        "comment": "Pure white"
-      },
-      "black": {
-        "value": "#000000",
-        "comment": "Pure black"
-      },
-      "gray": {
-        "100": {
-          "value": "#F8F9FA",
-          "comment": "Lightest gray"
+        "blue": {
+          "value": "#0F446C",
+          "comment": "Georgia Tech Secondary Blue"
         },
-        "200": {
-          "value": "#E9ECEF",
-          "comment": "Light gray"
+        "gold-light": {
+          "value": "#EAAA00",
+          "comment": "Georgia Tech Light Gold"
         },
-        "300": {
-          "value": "#DEE2E6",
-          "comment": "Medium light gray"
-        },
-        "400": {
-          "value": "#CED4DA",
-          "comment": "Medium gray"
-        },
-        "500": {
-          "value": "#ADB5BD",
-          "comment": "Medium dark gray"
-        },
-        "600": {
-          "value": "#6C757D",
-          "comment": "Dark gray"
-        },
-        "700": {
-          "value": "#495057",
-          "comment": "Darker gray"
-        },
-        "800": {
-          "value": "#343A40",
-          "comment": "Very dark gray"
-        },
-        "900": {
-          "value": "#212529",
-          "comment": "Darkest gray"
+        "gold-dark": {
+          "value": "#857437",
+          "comment": "Georgia Tech Dark Gold"
         }
-      }
-    },
-    "semantic": {
-      "success": {
-        "value": "#28A745",
-        "comment": "Success green"
       },
-      "warning": {
-        "value": "#FFC107",
-        "comment": "Warning yellow"
+      "neutral": {
+        "white": {
+          "value": "#FFFFFF",
+          "comment": "Pure white"
+        },
+        "black": {
+          "value": "#000000",
+          "comment": "Pure black"
+        },
+        "gray": {
+          "100": {
+            "value": "#F8F9FA",
+            "comment": "Lightest gray"
+          },
+          "200": {
+            "value": "#E9ECEF",
+            "comment": "Light gray"
+          },
+          "300": {
+            "value": "#DEE2E6",
+            "comment": "Medium light gray"
+          },
+          "400": {
+            "value": "#CED4DA",
+            "comment": "Medium gray"
+          },
+          "500": {
+            "value": "#ADB5BD",
+            "comment": "Medium dark gray"
+          },
+          "600": {
+            "value": "#6C757D",
+            "comment": "Dark gray"
+          },
+          "700": {
+            "value": "#495057",
+            "comment": "Darker gray"
+          },
+          "800": {
+            "value": "#343A40",
+            "comment": "Very dark gray"
+          },
+          "900": {
+            "value": "#212529",
+            "comment": "Darkest gray"
+          }
+        }
       },
-      "error": {
-        "value": "#DC3545",
-        "comment": "Error red"
-      },
-      "info": {
-        "value": "#17A2B8",
-        "comment": "Info blue"
+      "semantic": {
+        "success": {
+          "value": "#28A745",
+          "comment": "Success green"
+        },
+        "warning": {
+          "value": "#FFC107",
+          "comment": "Warning yellow"
+        },
+        "error": {
+          "value": "#DC3545",
+          "comment": "Error red"
+        },
+        "info": {
+          "value": "#17A2B8",
+          "comment": "Info blue"
+        }
       }
     }
   }
-}
 }
