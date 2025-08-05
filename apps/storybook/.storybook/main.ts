@@ -2,8 +2,12 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
   stories: [
-    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    '../../../(packages|apps)/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/**/*.mdx',
+    '../../packages/react/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../packages/react/(src|docs)/**/*.mdx',
+    '../../packages/tokens/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../packages/tokens/(src|docs)/**/*.mdx',
   ],
   addons: [
     '@storybook/addon-essentials',
@@ -25,8 +29,6 @@ const config: StorybookConfig = {
     },
   },
   viteFinal: async (config) => {
-    console.log('Vite mode:', config.mode);
-
     // Ensure Vite can resolve the monorepo packages
     if (config.resolve && config.mode !== 'production') {
       config.resolve.alias = {

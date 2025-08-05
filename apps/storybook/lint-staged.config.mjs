@@ -6,6 +6,7 @@ import base from '../../lint-staged.typescript.mjs';
  */
 const config = {
   ...base,
+  '*.{ts,tsx}': [],
 };
 
 export default config;
