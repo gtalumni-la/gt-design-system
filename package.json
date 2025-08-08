@@ -41,6 +41,8 @@
     "docs:build": "cd apps/docs && pnpm build",
     "docs:preview": "cd apps/docs && pnpm preview",
     "docs:build-all": "cd apps/docs && pnpm build:all",
+    "version:list": "node scripts/version-docs.js --list",
+    "version:create": "node scripts/version-docs.js --version",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm run build && changeset publish",

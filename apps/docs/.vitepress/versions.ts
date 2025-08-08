@@ -5,11 +5,25 @@
  * that should be available on the site.
  */
 
+// Get version from package.json dynamically
+const getPackageVersion = () => {
+  if (typeof window !== 'undefined') {
+    // Client-side: will be loaded from versions.json
+    return '0.1.0';
+  }
+  // Server-side: use package.json
+  try {
+    return require('../../../package.json').version;
+  } catch {
+    return '0.1.0';
+  }
+};
+
 export const versions = {
   // Current/latest version
   current: {
-    label: 'v0.1.0',
-    version: '0.1.0',
+    label: `v${getPackageVersion()}`,
+    version: getPackageVersion(),
     path: '/',
     banner: {
       type: 'warning',
@@ -17,18 +31,10 @@ export const versions = {
     },
   },
 
-  // Previous versions (add as needed)
+  // Previous versions (dynamically loaded from versions.json)
   previous: [
-    // Example of how to add previous versions:
-    // {
-    //   label: 'v0.0.1',
-    //   version: '0.0.1',
-    //   path: '/v0.0.1/',
-    //   banner: {
-    //     type: 'danger',
-    //     content: 'This version is no longer maintained. Please upgrade to the latest version.'
-    //   }
-    // }
+    // This will be populated dynamically from versions.json
+    // when the app loads on the client-side
   ],
 };
 

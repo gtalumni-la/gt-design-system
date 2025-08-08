@@ -1,0 +1,54 @@
+.version-switcher {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.version-select {
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 4px;
+  color: var(--vp-c-text-1);
+  font-size: 12px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.version-select:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.version-select:focus {
+  outline: none;
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 0 2px var(--vp-c-brand-soft);
+}
+
+/* Dark mode styles */
+.dark .version-select {
+  background: var(--vp-c-bg-elv);
+  border-color: var(--vp-c-divider);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .version-switcher {
+    margin-left: 8px;
+  }
+  
+  .version-select {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+
+/* Integration with VitePress navigation */
+.VPNavBarTitle {
+  display: flex;
+  align-items: center;
+}
+
+.VPNavBarTitle .version-switcher {
+  flex-shrink: 0;
+}
