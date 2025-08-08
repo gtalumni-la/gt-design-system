@@ -9,7 +9,9 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "@gtalumni-la/eslint",
-    "@gtalumni-la/typescript"
+    "@gtalumni-la/typescript",
+    "@gtalumni-la/docs",
+    "@gtalumni-la/storybook"
   ],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
