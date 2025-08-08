@@ -26,7 +26,6 @@ export default [
       'storybook-static/**',
       '.rollup.cache/**',
       'storybook-out/**',
-      'storybook-static/**',
     ],
   },
 
