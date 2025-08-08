@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-49",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-49/",
+      "branch": "fix/changeset-validation-error",
+      "pr": 49,
+      "commit": "0c2a3f3348d7ae0c26cfb8547db083caee01bb74",
+      "created": "2025-08-08T05:18:30.370Z"
+    },
+    {
       "path": "gh-readonly-queue-main-pr-48-89bfcbcc0b840556ef4401a0ec070c14faab8dff",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-48-89bfcbcc0b840556ef4401a0ec070c14faab8dff/",
       "branch": "gh-readonly-queue/main/pr-48-89bfcbcc0b840556ef4401a0ec070c14faab8dff",
