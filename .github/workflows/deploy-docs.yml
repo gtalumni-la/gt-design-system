@@ -56,14 +56,8 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          # For PRs, deploy to a preview subdirectory
-          if [[ $GITHUB_REF == refs/pull/* ]]; then
-            PR_NUMBER=$(echo $GITHUB_REF | cut -d '/' -f 3)
-            BASE_DIR="dist/pr-preview/$PR_NUMBER"
-          else
-            BASE_DIR="dist"
-          fi
-
+          # Only deploys from main branch to production
+          BASE_DIR="dist"
           mkdir -p "$BASE_DIR"
           # Copy VitePress build (main site)
           cp -r apps/docs/.vitepress/dist/* "$BASE_DIR/"
