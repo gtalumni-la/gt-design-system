@@ -34,13 +34,22 @@ jobs:
 
       - name: Checkout gh-pages branch
         if: steps.cleanup.outputs.preview_path
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Only proceed if gh-pages branch exists
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            echo "gh-pages branch exists, checking it out..."
+            git clone --depth=1 --branch=gh-pages https://x-access-token:${GITHUB_TOKEN}@github.com/gtalumni-la/gt-design-system.git .
+          else
+            echo "gh-pages branch doesn't exist yet, nothing to cleanup"
+            exit 0
+          fi
 
       - name: Remove preview directory
         if: steps.cleanup.outputs.preview_path
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -d "preview/${{ steps.cleanup.outputs.preview_path }}" ]; then
             rm -rf "preview/${{ steps.cleanup.outputs.preview_path }}"
@@ -66,7 +75,7 @@ jobs:
             git config --local user.name "GitHub Action"
             git add -A
             git commit -m "Cleanup preview for ${{ steps.cleanup.outputs.preview_path }}" || echo "No changes to commit"
-            git push
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/gtalumni-la/gt-design-system.git gh-pages
           else
             echo "Preview directory not found: preview/${{ steps.cleanup.outputs.preview_path }}"
           fi
