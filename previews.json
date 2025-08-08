@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "fix-changeset-validation-error",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/fix-changeset-validation-error/",
+      "branch": "fix/changeset-validation-error",
+      "pr": null,
+      "commit": "3bbfdfa75f28d115ea32b2b12aa8e71538ee18a2",
+      "created": "2025-08-08T05:21:27.554Z"
+    },
+    {
       "path": "pr-49",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-49/",
       "branch": "fix/changeset-validation-error",
