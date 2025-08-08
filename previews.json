@@ -1,0 +1,12 @@
+{
+  "previews": [
+    {
+      "path": "pr-48",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-48/",
+      "branch": "feat/18-fix-storybook-deployment",
+      "pr": 48,
+      "commit": "a0ad70c3cc36a978215bd94444ccd6590a15ba6f",
+      "created": "2025-08-08T04:08:54.643Z"
+    }
+  ]
+}
