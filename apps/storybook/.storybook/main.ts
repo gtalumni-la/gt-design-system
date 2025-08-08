@@ -4,10 +4,10 @@ const config: StorybookConfig = {
   stories: [
     '../src/**/*.stories.@(js|jsx|ts|tsx)',
     '../src/**/*.mdx',
-    '../../packages/react/src/**/*.stories.@(js|jsx|ts|tsx)',
-    '../../packages/react/(src|docs)/**/*.mdx',
-    '../../packages/tokens/src/**/*.stories.@(js|jsx|ts|tsx)',
-    '../../packages/tokens/(src|docs)/**/*.mdx',
+    '../../../packages/react/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../../packages/react/(src|docs)/**/*.mdx',
+    '../../../packages/tokens/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../../packages/tokens/(src|docs)/**/*.mdx',
   ],
   addons: [
     '@storybook/addon-essentials',
