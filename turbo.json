@@ -92,7 +92,11 @@
     "format:check": {
       "outputs": []
     },
-    "type-check": {},
+    "type-check": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
     "clean": {
       "cache": false
     }
