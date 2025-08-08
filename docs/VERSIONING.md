@@ -1,13 +1,14 @@
-# Documentation Versioning
+# Documentation Deployment System
 
-This document describes how to manage versioned documentation for the GT Design System.
+This document describes how to manage documentation deployments for the GT Design System.
 
 ## Overview
 
-The GT Design System uses a two-part documentation deployment strategy:
+The GT Design System uses a three-part documentation deployment strategy:
 
 1. **Latest Version** (`main` branch) → `https://gtalumni-la.github.io/gt-design-system/`
 2. **Versioned Releases** (git tags) → `https://gtalumni-la.github.io/gt-design-system/v1.0.0/`
+3. **Branch Previews** (PRs & branches) → `https://gtalumni-la.github.io/gt-design-system/preview/pr-123/`
 
 ## Creating a New Version
 
@@ -20,6 +21,33 @@ pnpm version:list
 # Create a new version (e.g., 1.0.0)
 pnpm version:create 1.0.0
 ```
+
+## Branch Previews
+
+### Automatic Preview Creation
+
+Branch previews are automatically created for:
+- **Pull Requests**: Creates preview at `/preview/pr-123/`
+- **Feature Branches**: Creates preview at `/preview/feat-new-component/`
+
+### Manual Preview Management
+
+```bash
+# List all active previews
+pnpm preview:list
+
+# Cleanup specific preview
+pnpm preview:cleanup pr-123
+
+# Cleanup old previews (>7 days)
+pnpm preview:cleanup-old
+```
+
+### Preview URLs
+
+When you create a PR, you'll automatically get:
+- **Documentation**: `https://gtalumni-la.github.io/gt-design-system/preview/pr-123/`
+- **Storybook**: `https://gtalumni-la.github.io/gt-design-system/preview/pr-123/storybook/`
 
 ### Method 2: Manual process
 
@@ -51,6 +79,16 @@ git push origin v1.0.0
    - Deploys to: Versioned path (`/v1.0.0/`)
    - Contains: Documentation for that specific version
 
+3. **Preview Deploy** (`.github/workflows/deploy-preview.yml`)
+   - Triggers on: Pull requests and feature branch pushes
+   - Deploys to: Preview path (`/preview/pr-123/`)
+   - Contains: Branch-specific documentation and Storybook
+
+4. **Preview Cleanup** (`.github/workflows/cleanup-preview.yml`)
+   - Triggers on: PR close or branch deletion
+   - Action: Removes preview directories
+   - Keeps: Only active previews
+
 ### Version Switching
 
 - The documentation includes a version switcher in the navigation
@@ -70,7 +108,15 @@ GitHub Pages:
 ├── /v0.9.0/                   # Version 0.9.0
 │   ├── index.html
 │   └── storybook/
-└── versions.json              # Version manifest
+├── /preview/                  # Branch previews
+│   ├── /pr-123/
+│   │   ├── index.html
+│   │   └── storybook/
+│   └── /feat-new-component/
+│       ├── index.html
+│       └── storybook/
+├── versions.json              # Version manifest
+└── previews.json              # Preview manifest
 ```
 
 ### Versions Manifest
@@ -90,6 +136,33 @@ The `versions.json` file contains metadata about available versions:
       "path": "/v0.9.0/",
       "label": "v0.9.0",
       "date": "2025-01-15T10:30:00Z"
+    }
+  ]
+}
+```
+
+### Previews Manifest
+
+The `previews.json` file tracks active branch previews:
+
+```json
+{
+  "previews": [
+    {
+      "path": "pr-123",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-123/",
+      "branch": "feat/new-button",
+      "pr": 123,
+      "commit": "abc1234567890",
+      "created": "2025-01-15T10:30:00Z"
+    },
+    {
+      "path": "feat-docs-update",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/feat-docs-update/",
+      "branch": "feat/docs-update",
+      "pr": null,
+      "commit": "def0987654321",
+      "created": "2025-01-14T15:45:00Z"
     }
   ]
 }

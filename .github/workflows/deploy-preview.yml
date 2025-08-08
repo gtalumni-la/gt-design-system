@@ -1,0 +1,199 @@
+name: Deploy Branch Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  # Also trigger on push to feature branches (optional)
+  push:
+    branches-ignore: [main]
+    # Exclude version tags
+    tags-ignore: ['v*']
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+# Allow concurrent previews for different branches
+concurrency:
+  group: 'preview-${{ github.head_ref || github.ref_name }}'
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Determine preview path
+        id: preview
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Use PR number for pull requests
+            PREVIEW_PATH="pr-${{ github.event.number }}"
+            echo "Preview for PR #${{ github.event.number }}"
+          else
+            # Use branch name for direct pushes, sanitize it
+            BRANCH_NAME="${{ github.ref_name }}"
+            # Replace invalid characters for URLs
+            PREVIEW_PATH=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
+            echo "Preview for branch: $BRANCH_NAME -> $PREVIEW_PATH"
+          fi
+          
+          echo "preview_path=$PREVIEW_PATH" >> $GITHUB_OUTPUT
+          echo "preview_url=https://gtalumni-la.github.io/gt-design-system/preview/$PREVIEW_PATH/" >> $GITHUB_OUTPUT
+          echo "storybook_url=https://gtalumni-la.github.io/gt-design-system/preview/$PREVIEW_PATH/storybook/" >> $GITHUB_OUTPUT
+
+      - name: Update VitePress config for preview
+        run: |
+          # Update base path for this preview
+          sed -i "s|base: '/gt-design-system/',|base: '/gt-design-system/preview/${{ steps.preview.outputs.preview_path }}/',|" apps/docs/.vitepress/config.ts
+          echo "Updated base path to: /gt-design-system/preview/${{ steps.preview.outputs.preview_path }}/"
+
+      - name: Build design tokens
+        run: pnpm --filter @gtalumni-la/tokens build
+
+      - name: Build React components
+        run: pnpm --filter @gtalumni-la/react build
+
+      - name: Build Storybook
+        run: pnpm --filter @gtalumni-la/storybook build
+
+      - name: Build VitePress documentation
+        run: pnpm --filter @gtalumni-la/docs build
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy preview to gh-pages
+        run: |
+          # Create preview directory structure
+          mkdir -p gh-pages/preview/${{ steps.preview.outputs.preview_path }}
+          
+          # Copy documentation
+          cp -r apps/docs/.vitepress/dist/* gh-pages/preview/${{ steps.preview.outputs.preview_path }}/
+          
+          # Copy Storybook
+          mkdir -p gh-pages/preview/${{ steps.preview.outputs.preview_path }}/storybook
+          cp -r apps/storybook/storybook-static/* gh-pages/preview/${{ steps.preview.outputs.preview_path }}/storybook/
+          
+          # Create/update preview manifest
+          cd gh-pages
+          
+          # Create previews.json if it doesn't exist
+          if [ ! -f previews.json ]; then
+            echo '{"previews": []}' > previews.json
+          fi
+          
+          # Add this preview to the list
+          node -e "
+            const fs = require('fs');
+            const previews = JSON.parse(fs.readFileSync('previews.json'));
+            const newPreview = {
+              path: '${{ steps.preview.outputs.preview_path }}',
+              url: '${{ steps.preview.outputs.preview_url }}',
+              branch: '${{ github.head_ref || github.ref_name }}',
+              pr: ${{ github.event.number || 'null' }},
+              commit: '${{ github.sha }}',
+              created: new Date().toISOString()
+            };
+            
+            // Remove existing preview for this path
+            previews.previews = previews.previews.filter(p => p.path !== newPreview.path);
+            
+            // Add new preview
+            previews.previews.unshift(newPreview);
+            
+            // Keep only the latest 20 previews
+            previews.previews = previews.previews.slice(0, 20);
+            
+            fs.writeFileSync('previews.json', JSON.stringify(previews, null, 2));
+            console.log('Updated previews.json with', newPreview.path);
+          "
+          
+          # Commit and push changes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Deploy preview for ${{ github.head_ref || github.ref_name }} (${{ github.sha }})" || echo "No changes to commit"
+          git push
+
+      - name: Comment on PR with preview links
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = '${{ steps.preview.outputs.preview_url }}';
+            const storybookUrl = '${{ steps.preview.outputs.storybook_url }}';
+            const commitSha = '${{ github.sha }}';
+            
+            // Find existing preview comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('📖 Documentation Preview')
+            );
+            
+            const commentBody = `## 📖 Documentation Preview
+            
+            The documentation for this PR has been deployed and is available at:
+            
+            | Link | URL |
+            |------|-----|
+            | 📚 **Documentation** | [${previewUrl}](${previewUrl}) |
+            | 📖 **Storybook** | [${storybookUrl}](${storybookUrl}) |
+            
+            <details>
+            <summary>Preview Details</summary>
+            
+            - **Branch**: \`${{ github.head_ref }}\`
+            - **Commit**: \`${commitSha.substring(0, 7)}\`
+            - **Updated**: ${new Date().toLocaleString()}
+            
+            > This preview will be automatically updated when new commits are pushed to this PR.
+            > The preview will be automatically cleaned up when the PR is merged or closed.
+            
+            </details>`;
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+            }

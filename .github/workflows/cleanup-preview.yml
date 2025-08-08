@@ -1,0 +1,72 @@
+name: Cleanup Preview
+
+on:
+  pull_request:
+    types: [closed]
+  delete:
+    # Cleanup when branches are deleted
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine preview path to cleanup
+        id: cleanup
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Cleanup PR preview
+            PREVIEW_PATH="pr-${{ github.event.number }}"
+            echo "Cleaning up PR #${{ github.event.number }} preview"
+          elif [ "${{ github.event_name }}" = "delete" ] && [ "${{ github.event.ref_type }}" = "branch" ]; then
+            # Cleanup branch preview
+            BRANCH_NAME="${{ github.event.ref }}"
+            PREVIEW_PATH=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g' | sed 's/--*/-/g' | tr '[:upper:]' '[:lower:]')
+            echo "Cleaning up branch preview: $BRANCH_NAME -> $PREVIEW_PATH"
+          else
+            echo "No preview to cleanup"
+            exit 0
+          fi
+          
+          echo "preview_path=$PREVIEW_PATH" >> $GITHUB_OUTPUT
+
+      - name: Checkout gh-pages branch
+        if: steps.cleanup.outputs.preview_path
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove preview directory
+        if: steps.cleanup.outputs.preview_path
+        run: |
+          if [ -d "preview/${{ steps.cleanup.outputs.preview_path }}" ]; then
+            rm -rf "preview/${{ steps.cleanup.outputs.preview_path }}"
+            echo "Removed preview directory: preview/${{ steps.cleanup.outputs.preview_path }}"
+            
+            # Update previews.json
+            if [ -f "previews.json" ]; then
+              node -e "
+                const fs = require('fs');
+                try {
+                  const previews = JSON.parse(fs.readFileSync('previews.json'));
+                  previews.previews = previews.previews.filter(p => p.path !== '${{ steps.cleanup.outputs.preview_path }}');
+                  fs.writeFileSync('previews.json', JSON.stringify(previews, null, 2));
+                  console.log('Removed ${{ steps.cleanup.outputs.preview_path }} from previews.json');
+                } catch (error) {
+                  console.error('Error updating previews.json:', error);
+                }
+              "
+            fi
+            
+            # Commit changes
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add -A
+            git commit -m "Cleanup preview for ${{ steps.cleanup.outputs.preview_path }}" || echo "No changes to commit"
+            git push
+          else
+            echo "Preview directory not found: preview/${{ steps.cleanup.outputs.preview_path }}"
+          fi
