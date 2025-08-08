@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "feat-18-fix-storybook-deployment",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/feat-18-fix-storybook-deployment/",
+      "branch": "feat/18-fix-storybook-deployment",
+      "pr": null,
+      "commit": "4a395201d1ef1e7d4768c8c9e51339595ae48fa9",
+      "created": "2025-08-08T04:23:00.872Z"
+    },
+    {
       "path": "pr-48",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-48/",
       "branch": "feat/18-fix-storybook-deployment",
