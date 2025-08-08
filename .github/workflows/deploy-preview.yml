@@ -78,14 +78,34 @@ jobs:
       - name: Build VitePress documentation
         run: pnpm --filter @gtalumni-la/docs build
 
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout or create gh-pages branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Set up git credentials
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          
+          # Check if gh-pages branch exists
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            echo "gh-pages branch exists, checking it out..."
+            git clone --depth=1 --branch=gh-pages https://x-access-token:${GITHUB_TOKEN}@github.com/gtalumni-la/gt-design-system.git gh-pages
+          else
+            echo "gh-pages branch doesn't exist, creating it..."
+            git clone --depth=1 https://x-access-token:${GITHUB_TOKEN}@github.com/gtalumni-la/gt-design-system.git gh-pages
+            cd gh-pages
+            git checkout --orphan gh-pages
+            git rm -rf . 2>/dev/null || true
+            echo '# GitHub Pages' > README.md
+            git add README.md
+            git commit -m "Initialize gh-pages branch"
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/gtalumni-la/gt-design-system.git gh-pages
+            cd ..
+          fi
 
       - name: Deploy preview to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Create preview directory structure
           mkdir -p gh-pages/preview/${{ steps.preview.outputs.preview_path }}
@@ -136,7 +156,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add .
           git commit -m "Deploy preview for ${{ github.head_ref || github.ref_name }} (${{ github.sha }})" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/gtalumni-la/gt-design-system.git gh-pages
 
       - name: Comment on PR with preview links
         if: github.event_name == 'pull_request'
