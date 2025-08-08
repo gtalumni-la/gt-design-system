@@ -1,0 +1,119 @@
+name: Deploy Versioned Documentation
+
+on:
+  push:
+    tags: ['v*']  # Only run on version tags
+
+permissions:
+  contents: write  # Need write permissions to push to gh-pages
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment per version
+concurrency:
+  group: 'pages-${{ github.ref }}'
+  cancel-in-progress: false
+
+jobs:
+  deploy-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Deploying version: $VERSION"
+
+      - name: Update VitePress config for versioned deployment
+        run: |
+          # Update the base path for this version
+          sed -i "s|base: '/gt-design-system/',|base: '/gt-design-system/${{ steps.version.outputs.version }}/',|" apps/docs/.vitepress/config.ts
+
+      - name: Build design tokens
+        run: pnpm --filter @gtalumni-la/tokens build
+
+      - name: Build React components
+        run: pnpm --filter @gtalumni-la/react build
+
+      - name: Build Storybook with versioned base
+        run: |
+          # Update Storybook base URL for this version
+          echo "export const parameters = { docs: { toc: { title: 'On this page' } } };" > apps/storybook/.storybook/preview.ts
+          pnpm --filter @gtalumni-la/storybook build
+
+      - name: Build VitePress documentation
+        run: pnpm --filter @gtalumni-la/docs build
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy version to gh-pages
+        run: |
+          # Create version directory
+          mkdir -p gh-pages/${{ steps.version.outputs.version }}
+          
+          # Copy documentation
+          cp -r apps/docs/.vitepress/dist/* gh-pages/${{ steps.version.outputs.version }}/
+          
+          # Copy Storybook
+          mkdir -p gh-pages/${{ steps.version.outputs.version }}/storybook
+          cp -r apps/storybook/storybook-static/* gh-pages/${{ steps.version.outputs.version }}/storybook/
+          
+          # Update versions.json
+          cd gh-pages
+          
+          # Create versions.json if it doesn't exist
+          if [ ! -f versions.json ]; then
+            echo '{"current": {"version": "", "path": "/", "label": ""}, "versions": []}' > versions.json
+          fi
+          
+          # Add this version to the versions list
+          node -e "
+            const fs = require('fs');
+            const versions = JSON.parse(fs.readFileSync('versions.json'));
+            const newVersion = {
+              version: '${{ steps.version.outputs.version }}',
+              path: '/${{ steps.version.outputs.version }}/',
+              label: '${{ steps.version.outputs.version }}',
+              date: new Date().toISOString()
+            };
+            
+            // Add to versions array if not already present
+            if (!versions.versions.find(v => v.version === newVersion.version)) {
+              versions.versions.unshift(newVersion);
+              // Keep only the latest 10 versions
+              versions.versions = versions.versions.slice(0, 10);
+            }
+            
+            fs.writeFileSync('versions.json', JSON.stringify(versions, null, 2));
+            console.log('Updated versions.json with', newVersion.version);
+          "
+          
+          # Commit and push changes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Deploy documentation version ${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git push

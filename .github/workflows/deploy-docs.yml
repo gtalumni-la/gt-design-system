@@ -54,20 +54,42 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Get current version
+        id: version
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Deploying latest version: $VERSION"
+
       - name: Prepare deployment directory
         run: |
-          # Only deploys from main branch to production
-          BASE_DIR="dist"
-          mkdir -p "$BASE_DIR"
+          mkdir -p dist
+          
           # Copy VitePress build (main site)
-          cp -r apps/docs/.vitepress/dist/* "$BASE_DIR/"
+          cp -r apps/docs/.vitepress/dist/* dist/
+          
           # Copy Storybook build
           if [ -d "apps/storybook/storybook-static" ]; then
-            mkdir -p "$BASE_DIR/storybook"
-            cp -r apps/storybook/storybook-static/* "$BASE_DIR/storybook/"
+            mkdir -p dist/storybook
+            cp -r apps/storybook/storybook-static/* dist/storybook/
           else
             echo "Error: Storybook build not found at apps/storybook/storybook-static. Check if the Storybook build step completed successfully."
             exit 1
+          fi
+          
+          # Fetch available versions from gh-pages branch (if it exists)
+          # This will help populate the version switcher
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            echo "Fetching version information from gh-pages branch..."
+            git fetch origin gh-pages:gh-pages 2>/dev/null || true
+            if git show gh-pages:versions.json > /dev/null 2>&1; then
+              git show gh-pages:versions.json > dist/versions.json 2>/dev/null || echo '{"current": {"version": "${{ steps.version.outputs.version }}", "path": "/", "label": "${{ steps.version.outputs.version }} (latest)"}, "versions": []}' > dist/versions.json
+            else
+              echo '{"current": {"version": "${{ steps.version.outputs.version }}", "path": "/", "label": "${{ steps.version.outputs.version }} (latest)"}, "versions": []}' > dist/versions.json
+            fi
+          else
+            echo "No gh-pages branch found, creating default versions.json"
+            echo '{"current": {"version": "${{ steps.version.outputs.version }}", "path": "/", "label": "${{ steps.version.outputs.version }} (latest)"}, "versions": []}' > dist/versions.json
           fi
 
       - name: Upload artifact
@@ -77,7 +99,7 @@ jobs:
 
   # Deployment job
   deploy:
-    # Only deploy on main branch, not on PRs
+    # Deploy on main branch only (latest version)
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
