@@ -28,20 +28,6 @@ const config: StorybookConfig = {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
-  viteFinal: async (config) => {
-    // Ensure Vite can resolve the monorepo packages
-    if (config.resolve && config.mode !== 'production') {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@gtalumni-la/tokens':
-          '/Users/angusp/workspace/@gtalumni-la/design-system/packages/tokens/src',
-        '@gtalumni-la/react':
-          '/Users/angusp/workspace/@gtalumni-la/design-system/packages/react/src',
-      };
-    }
-
-    return config;
-  },
   docs: {
     autodocs: 'tag',
   },
