@@ -8,8 +8,6 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@gtalumni-la/eslint",
-    "@gtalumni-la/typescript",
     "@gtalumni-la/docs",
     "@gtalumni-la/storybook"
   ],
