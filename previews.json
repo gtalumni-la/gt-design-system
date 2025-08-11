@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "gh-readonly-queue-main-pr-50-e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-50-e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f/",
+      "branch": "gh-readonly-queue/main/pr-50-e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f",
+      "pr": null,
+      "commit": "5d523631abb5d0850e84a6feaa7294c60c272d1b",
+      "created": "2025-08-11T14:38:11.668Z"
+    },
+    {
       "path": "pr-50",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-50/",
       "branch": "fix/changeset-config-final",
