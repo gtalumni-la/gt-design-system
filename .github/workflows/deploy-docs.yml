@@ -68,25 +68,29 @@ jobs:
           # Check out existing gh-pages branch to preserve preview directories
           if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
             echo "Fetching existing gh-pages branch to preserve previews..."
-            git fetch origin gh-pages:gh-pages 2>/dev/null || true
-            git checkout gh-pages 2>/dev/null || true
-            
-            # Copy existing preview directories and manifests
-            if [ -d "preview" ]; then
-              echo "Preserving existing preview directories..."
-              cp -r preview/ dist/
+            if ! git fetch origin gh-pages:gh-pages 2>/dev/null; then
+              echo "Warning: Failed to fetch gh-pages branch from origin." >&2
             fi
-            if [ -f "previews.json" ]; then
-              echo "Preserving existing previews manifest..."
-              cp previews.json dist/
+            if ! git checkout gh-pages 2>/dev/null; then
+              echo "Warning: Failed to checkout gh-pages branch. Continuing without preserving previews." >&2
+            else
+              # Copy existing preview directories and manifests
+              if [ -d "preview" ]; then
+                echo "Preserving existing preview directories..."
+                cp -r preview/ dist/
+              fi
+              if [ -f "previews.json" ]; then
+                echo "Preserving existing previews manifest..."
+                cp previews.json dist/
+              fi
+              if [ -f "versions.json" ]; then
+                echo "Preserving existing versions manifest..."
+                cp versions.json dist/
+              fi
+              
+              # Switch back to main branch content
+              git checkout main
             fi
-            if [ -f "versions.json" ]; then
-              echo "Preserving existing versions manifest..."
-              cp versions.json dist/
-            fi
-            
-            # Switch back to main branch content
-            git checkout -
           fi
           
           # Copy VitePress build (main site) - this will overwrite root files but preserve preview/
