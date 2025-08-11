@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "gh-readonly-queue-main-pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b/",
+      "branch": "gh-readonly-queue/main/pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b",
+      "pr": null,
+      "commit": "c2794d7a1e786a91e858c26b7e4f65b964611527",
+      "created": "2025-08-11T20:41:32.607Z"
+    },
+    {
       "path": "pr-52",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-52/",
       "branch": "fix/preserve-previews-in-main-deployment",
