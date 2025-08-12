@@ -1,4 +1,8 @@
 {
   "name": "@gtalumni-la/typescript",
-  "type": "module"
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "format": "prettier ./ --write"
+  }
 }
