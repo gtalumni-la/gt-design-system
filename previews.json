@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "bugfix-init-version-config-packages",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/bugfix-init-version-config-packages/",
+      "branch": "bugfix/init-version-config-packages",
+      "pr": null,
+      "commit": "57696228a1f02af56f4f38c623549d1e25fcdde4",
+      "created": "2025-08-12T14:08:47.580Z"
+    },
+    {
       "path": "pr-53",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-53/",
       "branch": "bugfix/init-version-config-packages",
