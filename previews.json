@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-53",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-53/",
+      "branch": "bugfix/init-version-config-packages",
+      "pr": 53,
+      "commit": "3c58cc56d3ab25db4d219b9e2b9f940b4e60729b",
+      "created": "2025-08-12T14:04:21.874Z"
+    },
+    {
       "path": "gh-readonly-queue-main-pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b/",
       "branch": "gh-readonly-queue/main/pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b",
