@@ -1,5 +1,9 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 
+// Check if we're building for GitHub Pages deployment
+const isGithubPagesEnv = () =>
+  process.env.GITHUB_ACTIONS === 'true' || process.env.GITHUB_PAGES === 'true';
+
 const config: StorybookConfig = {
   stories: [
     '../src/**/*.stories.@(js|jsx|ts|tsx)',
@@ -36,10 +40,7 @@ const config: StorybookConfig = {
   },
   managerHead: (head) => {
     // Set base href for GitHub Pages deployment
-    if (
-      process.env.GITHUB_ACTIONS === 'true' ||
-      process.env.GITHUB_PAGES === 'true'
-    ) {
+    if (isGithubPagesEnv()) {
       return `
         ${head}
         <base href="/storybook/">
@@ -49,11 +50,7 @@ const config: StorybookConfig = {
   },
   viteFinal: (config) => {
     // Set base path for GitHub Pages deployment
-    // Check for GitHub Actions environment or explicit GITHUB_PAGES flag
-    if (
-      process.env.GITHUB_ACTIONS === 'true' ||
-      process.env.GITHUB_PAGES === 'true'
-    ) {
+    if (isGithubPagesEnv()) {
       config.base = '/storybook/';
     }
     return config;
