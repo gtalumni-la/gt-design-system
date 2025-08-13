@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "gh-readonly-queue-main-pr-55-4856d0954d3e2f3c348b8f6eb118cd781a2e3390",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-55-4856d0954d3e2f3c348b8f6eb118cd781a2e3390/",
+      "branch": "gh-readonly-queue/main/pr-55-4856d0954d3e2f3c348b8f6eb118cd781a2e3390",
+      "pr": null,
+      "commit": "30fd4b7541afaf04248cbccf6fc881c3779aa4d1",
+      "created": "2025-08-13T05:04:04.053Z"
+    },
+    {
       "path": "pr-55",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-55/",
       "branch": "fix/storybook-base-path-github-pages",
