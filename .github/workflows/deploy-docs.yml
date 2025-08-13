@@ -65,38 +65,7 @@ jobs:
         run: |
           mkdir -p dist
           
-          # Store current branch before any git operations
-          CURRENT_BRANCH=$(git branch --show-current)
-          
-          # Check out existing gh-pages branch to preserve preview directories
-          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
-            echo "Fetching existing gh-pages branch to preserve previews..."
-            if ! git fetch origin gh-pages:gh-pages 2>/dev/null; then
-              echo "Warning: Failed to fetch gh-pages branch from origin." >&2
-            fi
-            if ! git checkout gh-pages 2>/dev/null; then
-              echo "Warning: Failed to checkout gh-pages branch. Continuing without preserving previews." >&2
-            else
-              # Copy existing preview directories and manifests
-              if [ -d "preview" ]; then
-                echo "Preserving existing preview directories..."
-                cp -r preview/ dist/
-              fi
-              if [ -f "previews.json" ]; then
-                echo "Preserving existing previews manifest..."
-                cp previews.json dist/
-              fi
-              if [ -f "versions.json" ]; then
-                echo "Preserving existing versions manifest..."
-                cp versions.json dist/
-              fi
-              
-              # Switch back to original branch content
-              git checkout "$CURRENT_BRANCH"
-            fi
-          fi
-          
-          # Copy VitePress build (main site) - this will overwrite root files but preserve preview/
+          # Copy VitePress build (main site)
           cp -r apps/docs/.vitepress/dist/* dist/
           
           # Copy Storybook build
@@ -108,16 +77,19 @@ jobs:
             exit 1
           fi
           
-          # Create or update versions.json if it doesn't exist
-          if [ ! -f "dist/versions.json" ]; then
-            echo "Creating default versions.json"
+          # Fetch available versions from gh-pages branch (if it exists)
+          # This will help populate the version switcher
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            echo "Fetching version information from gh-pages branch..."
+            git fetch origin gh-pages:gh-pages 2>/dev/null || true
+            if git show gh-pages:versions.json > /dev/null 2>&1; then
+              git show gh-pages:versions.json > dist/versions.json 2>/dev/null || echo '{"current": {"version": "${{ steps.version.outputs.version }}", "path": "/", "label": "${{ steps.version.outputs.version }} (latest)"}, "versions": []}' > dist/versions.json
+            else
+              echo '{"current": {"version": "${{ steps.version.outputs.version }}", "path": "/", "label": "${{ steps.version.outputs.version }} (latest)"}, "versions": []}' > dist/versions.json
+            fi
+          else
+            echo "No gh-pages branch found, creating default versions.json"
             echo '{"current": {"version": "${{ steps.version.outputs.version }}", "path": "/", "label": "${{ steps.version.outputs.version }} (latest)"}, "versions": []}' > dist/versions.json
-          fi
-          
-          # Create default previews.json if it doesn't exist
-          if [ ! -f "dist/previews.json" ]; then
-            echo "Creating default previews.json"
-            echo '{"previews": []}' > dist/previews.json
           fi
 
       - name: Upload artifact
