@@ -47,6 +47,8 @@ jobs:
 
       - name: Build Storybook
         run: pnpm --filter @gtalumni-la/storybook build
+        env:
+          GITHUB_PAGES: true
 
       - name: Build VitePress documentation
         run: pnpm --filter @gtalumni-la/docs build
