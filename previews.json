@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-56",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-56/",
+      "branch": "feature/remove-macos-files",
+      "pr": 56,
+      "commit": "3e64b62e7f134089229673db299a6d954a37b770",
+      "created": "2025-08-15T20:38:03.082Z"
+    },
+    {
       "path": "gh-readonly-queue-main-pr-55-4856d0954d3e2f3c348b8f6eb118cd781a2e3390",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-55-4856d0954d3e2f3c348b8f6eb118cd781a2e3390/",
       "branch": "gh-readonly-queue/main/pr-55-4856d0954d3e2f3c348b8f6eb118cd781a2e3390",
