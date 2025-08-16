@@ -2,9 +2,12 @@ name: Deploy Documentation
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
+      - next
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 # Allow one concurrent deployment
 concurrency:
@@ -46,12 +49,12 @@ jobs:
         run: pnpm --filter @gtalumni-la/react build
 
       - name: Build Storybook
-        run: pnpm --filter @gtalumni-la/storybook build
+        run: pnpm --filter @gtalumni-la/storybook docs:build
         env:
           GITHUB_PAGES: true
 
       - name: Build VitePress documentation
-        run: pnpm --filter @gtalumni-la/docs build
+        run: pnpm --filter @gtalumni-la/docs docs:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -66,10 +69,10 @@ jobs:
       - name: Prepare deployment directory
         run: |
           mkdir -p dist
-          
+
           # Copy VitePress build (main site)
           cp -r apps/docs/.vitepress/dist/* dist/
-          
+
           # Copy Storybook build
           if [ -d "apps/storybook/storybook-static" ]; then
             mkdir -p dist/storybook
@@ -78,7 +81,7 @@ jobs:
             echo "Error: Storybook build not found at apps/storybook/storybook-static. Check if the Storybook build step completed successfully."
             exit 1
           fi
-          
+
           # Fetch available versions from gh-pages branch (if it exists)
           # This will help populate the version switcher
           if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then

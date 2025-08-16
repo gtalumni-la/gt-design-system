@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "docs:build": {
+      "dependsOn": ["@gtalumni-la/storybook#docs:build"],
+      "outputs": [".vitepress/dist/**"]
+    },
+    "docs:dev": {
+      "dependsOn": ["@gtalumni-la/storybook#docs:dev"]
+    },
+    "docs:preview": {
+      "dependsOn": ["@gtalumni-la/storybook#docs:preview"]
+    }
+  }
+}
