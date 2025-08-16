@@ -2,10 +2,13 @@ name: Deploy Versioned Documentation
 
 on:
   push:
-    tags: ['v*']  # Only run on version tags
+    tags: ['v*'] # Only run on version tags
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 permissions:
-  contents: write  # Need write permissions to push to gh-pages
+  contents: write # Need write permissions to push to gh-pages
   pages: write
   id-token: write
 
@@ -57,10 +60,10 @@ jobs:
         run: |
           # Update Storybook base URL for this version
           echo "export const parameters = { docs: { toc: { title: 'On this page' } } };" > apps/storybook/.storybook/preview.ts
-          pnpm --filter @gtalumni-la/storybook build
+          pnpm --filter @gtalumni-la/storybook docs:build
 
       - name: Build VitePress documentation
-        run: pnpm --filter @gtalumni-la/docs build
+        run: pnpm --filter @gtalumni-la/docs docs:build
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
@@ -73,22 +76,22 @@ jobs:
         run: |
           # Create version directory
           mkdir -p gh-pages/${{ steps.version.outputs.version }}
-          
+
           # Copy documentation
           cp -r apps/docs/.vitepress/dist/* gh-pages/${{ steps.version.outputs.version }}/
-          
+
           # Copy Storybook
           mkdir -p gh-pages/${{ steps.version.outputs.version }}/storybook
           cp -r apps/storybook/storybook-static/* gh-pages/${{ steps.version.outputs.version }}/storybook/
-          
+
           # Update versions.json
           cd gh-pages
-          
+
           # Create versions.json if it doesn't exist
           if [ ! -f versions.json ]; then
             echo '{"current": {"version": "", "path": "/", "label": ""}, "versions": []}' > versions.json
           fi
-          
+
           # Add this version to the versions list
           node -e "
             const fs = require('fs');
@@ -110,7 +113,7 @@ jobs:
             fs.writeFileSync('versions.json', JSON.stringify(versions, null, 2));
             console.log('Updated versions.json with', newVersion.version);
           "
-          
+
           # Commit and push changes
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"

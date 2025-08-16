@@ -15,14 +15,6 @@
         "!**/*.stories.{tsx,jsx,mdx}"
       ]
     },
-    "build:storybook": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "storybook-static/**"
-      ]
-    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -39,6 +31,15 @@
     "test:watch": {
       "cache": false,
       "persistent": true
+    },
+    "test:ci": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**",
+        "test-report.junit.xml"
+      ]
     },
     "test:coverage": {
       "dependsOn": [
@@ -57,25 +58,8 @@
     },
     "docs:build": {
       "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".vitepress/dist/**"
-      ]
-    },
-    "storybook": {
-      "dependsOn": [
-        "^build"
-      ],
-      "cache": false,
-      "persistent": true
-    },
-    "storybook:build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "storybook-static/**"
+        "^build",
+        "^docs:build"
       ]
     },
     "lint": {

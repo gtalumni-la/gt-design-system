@@ -3,10 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "storybook dev -p 6006",
-    "build": "storybook build",
-    "build:storybook": "storybook build",
-    "preview": "serve storybook-static",
+    "docs:dev": "storybook dev -p 6006",
+    "docs:build": "storybook build",
+    "docs:preview": "serve storybook-static",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",

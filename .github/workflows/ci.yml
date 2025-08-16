@@ -10,6 +10,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 jobs:
   # Job 1: Install dependencies and cache
   setup:
@@ -209,7 +212,7 @@ jobs:
           key: build-${{ github.sha }}
 
       - name: Run tests with coverage
-        run: pnpm test:coverage
+        run: pnpm test:ci
 
       - name: Generate coverage reports
         run: |
@@ -234,8 +237,9 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.node-version == '18' # Only upload once
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./packages
           flags: unittests
           name: codecov-umbrella
