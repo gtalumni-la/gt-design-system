@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-57",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-57/",
+      "branch": "feature/simplify-github-actions",
+      "pr": 57,
+      "commit": "f260376414e006f6ce57b00e6fd7788c64dd1a6f",
+      "created": "2025-08-19T04:20:11.432Z"
+    },
+    {
       "path": "gh-readonly-queue-main-pr-56-30fd4b7541afaf04248cbccf6fc881c3779aa4d1",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-56-30fd4b7541afaf04248cbccf6fc881c3779aa4d1/",
       "branch": "gh-readonly-queue/main/pr-56-30fd4b7541afaf04248cbccf6fc881c3779aa4d1",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "52214916336d9612377dbf6185c425da12b87490",
       "created": "2025-08-08T05:08:14.700Z"
-    },
-    {
-      "path": "feat-18-fix-storybook-deployment",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/feat-18-fix-storybook-deployment/",
-      "branch": "feat/18-fix-storybook-deployment",
-      "pr": null,
-      "commit": "4a395201d1ef1e7d4768c8c9e51339595ae48fa9",
-      "created": "2025-08-08T04:23:00.872Z"
     }
   ]
 }
