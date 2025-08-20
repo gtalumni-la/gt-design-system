@@ -127,3 +127,4 @@ Desktop.ini
 
 # Changesets
 .changeset/README.md
+packages/react/test-report.junit.xml

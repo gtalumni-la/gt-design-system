@@ -10,19 +10,18 @@ import {
   GtSpacing4,
   GtSpacing6,
 } from '@gtalumni-la/tokens';
-import React from 'react';
+import type { ButtonHTMLAttributes, FC, ReactNode, CSSProperties } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children?: React.ReactNode; // Ensure children can be null
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children?: ReactNode; // Ensure children can be null
   variant?: ButtonVariant;
   size?: ButtonSize;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
   children,
   variant = 'primary',
   size = 'md',
@@ -30,7 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   ...props
 }) => {
-  const baseStyles: React.CSSProperties = {
+  const baseStyles: CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -44,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
     opacity: disabled ? 0.5 : 1,
   };
 
-  const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
+  const variantStyles: Record<ButtonVariant, CSSProperties> = {
     primary: {
       backgroundColor: GtColorPrimaryGold,
       color: GtColorNeutralWhite,
@@ -62,7 +61,7 @@ export const Button: React.FC<ButtonProps> = ({
     },
   };
 
-  const sizeStyles: Record<ButtonSize, React.CSSProperties> = {
+  const sizeStyles: Record<ButtonSize, CSSProperties> = {
     sm: {
       padding: `${GtSpacing2} ${GtSpacing3}`,
       fontSize: GtFontSizeSm,
