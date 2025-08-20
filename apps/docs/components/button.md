@@ -242,8 +242,141 @@ The Button component uses the following design tokens:
 - **Spacing**: `--gt-spacing-2`, `--gt-spacing-3`, `--gt-spacing-4`, `--gt-spacing-6`
 - **Typography**: `--gt-font-size-sm`, `--gt-font-size-base`, `--gt-font-size-lg`
 
+## Real-World Usage Examples
+
+The Button component includes comprehensive Storybook examples covering common use cases:
+
+### Form Actions
+
+```tsx
+<div style={{ display: 'flex', gap: '12px' }}>
+  <Button variant="primary" type="submit">
+    Save Changes
+  </Button>
+  <Button variant="outline" type="button">
+    Cancel
+  </Button>
+  <Button variant="secondary" type="button">
+    Save Draft
+  </Button>
+</div>
+```
+
+### Navigation Flow
+
+```tsx
+<div style={{ display: 'flex', gap: '12px' }}>
+  <Button variant="primary">
+    <span style={{ marginRight: '8px' }}>→</span>
+    Next Step
+  </Button>
+  <Button variant="outline">
+    <span style={{ marginRight: '8px' }}>←</span>
+    Previous
+  </Button>
+</div>
+```
+
+### Loading States
+
+```tsx
+<Button variant="primary" disabled={loading} onClick={handleSubmit}>
+  {loading ? (
+    <>
+      <span style={{ marginRight: '8px' }}>⟳</span>
+      Loading...
+    </>
+  ) : (
+    'Submit Form'
+  )}
+</Button>
+```
+
+### Responsive Layout
+
+```tsx
+<div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+  <Button style={{ width: '100%' }} variant="primary">
+    Full Width Button
+  </Button>
+  <div style={{ display: 'flex', gap: '8px' }}>
+    <Button style={{ flex: 1 }} variant="secondary">
+      Flexible
+    </Button>
+    <Button style={{ flex: 1 }} variant="outline">
+      Buttons
+    </Button>
+  </div>
+</div>
+```
+
+### Button Groups
+
+```tsx
+<div
+  style={{
+    display: 'flex',
+    border: '1px solid #e5e5e5',
+    borderRadius: '6px',
+    overflow: 'hidden',
+  }}
+>
+  <Button variant="outline" style={{ borderRadius: '0', borderRight: 'none' }}>
+    Day
+  </Button>
+  <Button variant="primary" style={{ borderRadius: '0', borderRight: 'none' }}>
+    Week
+  </Button>
+  <Button variant="outline" style={{ borderRadius: '0' }}>
+    Month
+  </Button>
+</div>
+```
+
+### CRUD Actions with Icons
+
+```tsx
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <Button variant="primary">
+    <span style={{ marginRight: '8px' }}>💾</span>
+    Save
+  </Button>
+  <Button variant="secondary">
+    <span style={{ marginRight: '8px' }}>✏️</span>
+    Edit
+  </Button>
+  <Button variant="outline">
+    <span style={{ marginRight: '8px' }}>🗑️</span>
+    Delete
+  </Button>
+</div>
+```
+
+## Best Practices
+
+### When to Use Each Variant
+
+- **Primary**: Main call-to-action, submit forms, primary navigation
+- **Secondary**: Supporting actions, alternative paths, less prominent actions
+- **Outline**: Cancel actions, tertiary actions, subtle interactions
+
+### Accessibility Guidelines
+
+- Always use descriptive text that explains the action
+- Include `aria-label` for icon-only buttons
+- Use proper `type` attributes for form buttons
+- Ensure sufficient color contrast (handled automatically)
+- Test with keyboard navigation and screen readers
+
+### Performance Considerations
+
+- Use loading states for async actions
+- Disable buttons during processing to prevent double-submission
+- Consider button grouping for related actions
+- Use appropriate sizing for touch targets (minimum 44px)
+
 ## Related
 
 - [Design Tokens](/tokens/) - Learn about the design system foundation
 - [Getting Started](/getting-started) - Basic setup and usage
-- [Storybook](https://gtalumni-la.github.io/gt-design-system/storybook/) - Interactive examples
+- [Storybook](https://gtalumni-la.github.io/gt-design-system/storybook/) - Interactive examples and live demos
