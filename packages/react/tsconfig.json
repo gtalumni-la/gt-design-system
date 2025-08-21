@@ -1,8 +1,9 @@
 {
   "extends": "@gtalumni-la/typescript/base.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["vitest/globals"]
   },
-  "include": ["src"],
+  "include": ["src", "__test__"],
   "exclude": ["node_modules"]
 }

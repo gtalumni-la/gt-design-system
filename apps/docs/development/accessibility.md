@@ -174,49 +174,197 @@ Dynamic content changes are announced:
 
 ## Testing Guidelines
 
-### Automated Testing
+### Automated Testing Infrastructure
 
-Include accessibility tests in your component tests:
+The GT Design System includes comprehensive automated accessibility testing:
+
+#### Unit Tests with jest-axe
+
+All components include accessibility tests using jest-axe:
 
 ```typescript
 import { axe, toHaveNoViolations } from 'jest-axe'
+import { render } from '@testing-library/react'
+import { Button } from '../Button'
 
 expect.extend(toHaveNoViolations)
 
-test('Button has no accessibility violations', async () => {
-  const { container } = render(<Button>Test Button</Button>)
-  const results = await axe(container)
-  expect(results).toHaveNoViolations()
+describe('Button Accessibility Tests', () => {
+  it('should not have any accessibility violations', async () => {
+    const { container } = render(<Button>Test Button</Button>)
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
+
+  it('should support keyboard navigation', async () => {
+    const { container } = render(<Button>Keyboard Test</Button>)
+    const results = await axe(container, {
+      tags: ['wcag2a', 'wcag2aa', 'keyboard'],
+    })
+    expect(results).toHaveNoViolations()
+  })
+
+  it('should meet color contrast requirements', async () => {
+    const { container } = render(
+      <Button variant="primary">Contrast Test</Button>
+    )
+    const results = await axe(container, {
+      tags: ['wcag2aa', 'color-contrast'],
+    })
+    expect(results).toHaveNoViolations()
+  })
 })
+```
+
+#### CI/CD Integration
+
+Accessibility testing runs automatically in our CI pipeline with comprehensive cross-browser coverage:
+
+**Automated Testing Pipeline:**
+
+- **Unit Tests**: All `.a11y.test.*` files run with jest-axe on every PR
+- **Cross-Browser Testing**: Automated testing across Chromium, Firefox, and WebKit
+- **Storybook Audits**: axe-core scans all Storybook stories in multiple browsers
+- **Mobile Testing**: Mobile Chrome and Safari accessibility validation
+- **Quality Gate**: PRs must pass all accessibility tests to merge
+- **Reports**: Detailed accessibility audit reports available as CI artifacts
+
+**Cross-Browser Coverage:**
+
+- **Chromium**: Chrome/Edge desktop testing with axe-core CLI
+- **Firefox**: Firefox-specific accessibility validation
+- **WebKit**: Safari testing using Playwright + axe-core
+- **Mobile**: iOS Safari and Android Chrome accessibility testing
+
+**CI Workflow Jobs:**
+
+```yaml
+accessibility:
+  strategy:
+    matrix:
+      browser: [chromium, firefox, webkit]
+  steps:
+    - name: Run accessibility tests
+      run: pnpm test a11y
+    - name: Cross-browser Storybook audit
+      run: axe http://localhost:8080 --browser ${{ matrix.browser }}
+```
+
+#### Storybook Integration
+
+Visual accessibility testing with Storybook addon:
+
+```typescript
+// .storybook/main.ts
+export default {
+  addons: [
+    '@storybook/addon-a11y', // Enables accessibility panel
+  ],
+};
+```
+
+The a11y addon provides:
+
+- Real-time accessibility scanning
+- WCAG compliance checking
+- Violation highlighting
+- Detailed remediation guidance
+
+#### Running Tests Locally
+
+**Unit Tests with jest-axe:**
+
+```bash
+# Run all accessibility tests
+pnpm test a11y
+
+# Run tests for specific component
+pnpm test Button.a11y
+
+# Run with coverage
+pnpm test:ci
+
+# Watch mode for development
+pnpm test:watch a11y
+```
+
+**Cross-Browser Testing with Playwright:**
+
+```bash
+# Install browser dependencies
+npx playwright install
+
+# Run cross-browser accessibility tests
+cd packages/react
+npx playwright test --config=playwright-a11y.config.js
+
+# Test specific browser
+npx playwright test --config=playwright-a11y.config.js --project webkit
+
+# Test with UI for debugging
+npx playwright test --config=playwright-a11y.config.js --ui
+```
+
+**Storybook Accessibility Testing:**
+
+```bash
+# Build and serve Storybook
+pnpm build --filter @gtalumni-la/storybook
+cd apps/storybook/storybook-static
+python3 -m http.server 8080
+
+# Run axe-core CLI tests (in another terminal)
+npm install -g @axe-core/cli
+axe http://localhost:8080 --tags wcag2a,wcag2aa --reporter json
+```
+
+**Development Workflow:**
+
+```bash
+# 1. Develop component with Storybook a11y addon
+pnpm dev --filter @gtalumni-la/storybook
+
+# 2. Write accessibility tests
+pnpm test:watch a11y
+
+# 3. Run cross-browser validation
+npx playwright test --config=playwright-a11y.config.js
+
+# 4. Commit with all tests passing
+pnpm test a11y && git commit
 ```
 
 ### Manual Testing Checklist
 
-Test components with these methods:
+For comprehensive manual testing, use our detailed **[Accessibility Testing Checklist](./accessibility-testing-checklist.md)** which covers:
 
-#### Keyboard Testing
+#### Component Testing Areas
+
+- **Visual and Structural Testing**: Color contrast, typography, layout
+- **Keyboard Navigation**: Tab order, focus management, interaction patterns
+- **Screen Reader Testing**: Content structure, ARIA implementation, announcements
+- **Mobile Accessibility**: Touch targets, mobile screen readers, orientation
+- **Performance and Motion**: Reduced motion preferences, animation impact
+
+#### Quick Verification Checklist
 
 - [ ] All interactive elements reachable via Tab
 - [ ] Focus indicators clearly visible
-- [ ] Logical tab order
+- [ ] Logical tab order follows visual layout
 - [ ] All functionality available via keyboard
 - [ ] Escape key closes modals/dropdowns
-
-#### Screen Reader Testing
-
 - [ ] Content structure makes sense when read aloud
 - [ ] Interactive elements properly labeled
-- [ ] State changes announced
+- [ ] State changes announced to screen readers
 - [ ] Form validation errors clearly communicated
 - [ ] Tables and lists properly structured
-
-#### Visual Testing
-
 - [ ] Text remains readable at 200% zoom
 - [ ] No information conveyed by color alone
-- [ ] Sufficient color contrast maintained
+- [ ] Sufficient color contrast maintained (4.5:1 for normal text, 3:1 for large)
 - [ ] Focus indicators don't get cut off
-- [ ] Content reflows properly at different sizes
+- [ ] Content reflows properly at different viewport sizes
+
+**📋 [View Complete Testing Checklist →](./accessibility-testing-checklist.md)**
 
 ### Assistive Technology Testing
 

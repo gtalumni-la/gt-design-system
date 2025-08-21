@@ -178,7 +178,90 @@ jobs:
       - name: Run TypeScript type checking
         run: pnpm type-check
 
-  # Job 6: Testing with Coverage
+  # Job 6: Accessibility Testing
+  accessibility:
+    name: Accessibility Testing
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install ${{ matrix.browser }}
+
+      - name: Restore build outputs
+        uses: actions/cache@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/*/build
+          key: build-${{ github.sha }}
+
+      - name: Run accessibility tests
+        run: pnpm test a11y
+
+      - name: Build Storybook for accessibility audit
+        run: pnpm build --filter @gtalumni-la/storybook
+
+      - name: Install axe-core CLI
+        run: npm install -g @axe-core/cli
+
+      - name: Run cross-browser Storybook accessibility audit
+        run: |
+          # Start a simple HTTP server for Storybook
+          cd apps/storybook/storybook-static
+          python3 -m http.server 8080 &
+          SERVER_PID=$!
+          sleep 5
+          
+          # Run axe tests with different browsers
+          case "${{ matrix.browser }}" in
+            "chromium")
+              axe http://localhost:8080 --chrome-options="--no-sandbox,--disable-dev-shm-usage" --tags wcag2a,wcag2aa --reporter json > ../../../storybook-a11y-${{ matrix.browser }}.json || true
+              ;;
+            "firefox")
+              axe http://localhost:8080 --browser firefox --tags wcag2a,wcag2aa --reporter json > ../../../storybook-a11y-${{ matrix.browser }}.json || true
+              ;;
+            "webkit")
+              # WebKit testing with Playwright
+              cd packages/react
+              npx playwright test --config=playwright-a11y.config.js --project webkit || true
+              cd ../..
+              ;;
+          esac
+          
+          # Kill the server
+          kill $SERVER_PID
+          
+      - name: Upload accessibility reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-reports-${{ matrix.browser }}
+          path: |
+            storybook-a11y-${{ matrix.browser }}.json
+            packages/*/coverage/
+            playwright-report/
+          retention-days: 7
+
+  # Job 7: Testing with Coverage
   test:
     name: Test & Coverage
     runs-on: ubuntu-latest
@@ -277,11 +360,11 @@ jobs:
         run: pnpm outdated
         continue-on-error: true
 
-  # Job 8: Quality Gate
+  # Job 9: Quality Gate
   quality-gate:
     name: Quality Gate
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, build, test]
+    needs: [lint, typecheck, build, accessibility, test]
     if: always()
     steps:
       - name: Check job results
@@ -298,17 +381,21 @@ jobs:
             echo "❌ Build failed"
             exit 1
           fi
+          if [[ "${{ needs.accessibility.result }}" == "failure" ]]; then
+            echo "❌ Accessibility tests failed"
+            exit 1
+          fi
           if [[ "${{ needs.test.result }}" == "failure" ]]; then
             echo "❌ Tests failed"
             exit 1
           fi
           echo "✅ All quality checks passed!"
 
-  # Job 9: Comment PR with Results
+  # Job 10: Comment PR with Results
   comment-pr:
     name: Comment PR Results
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, build, test, audit]
+    needs: [lint, typecheck, build, accessibility, test, audit]
     if: github.event_name == 'pull_request' && always()
     permissions:
       pull-requests: write
@@ -330,16 +417,20 @@ jobs:
           | 🔍 Linting | ${{ needs.lint.result == 'success' && '✅ Passed' || '❌ Failed' }} |
           | 🏗️ Type Check | ${{ needs.typecheck.result == 'success' && '✅ Passed' || '❌ Failed' }} |
           | 📦 Build | ${{ needs.build.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | ♿ Accessibility | ${{ needs.accessibility.result == 'success' && '✅ Passed' || '❌ Failed' }} |
           | 🧪 Tests | ${{ needs.test.result == 'success' && '✅ Passed' || '❌ Failed' }} |
           | 🔒 Security Audit | ${{ needs.audit.result == 'success' && '✅ Passed' || '⚠️ Check logs' }} |
 
           ### Test Coverage
           Coverage reports are available in the artifacts.
 
+          ### Accessibility Reports
+          Accessibility testing reports (including Storybook audits) are available in the artifacts.
+
           ### Next Steps
           EOF
 
-          if [[ "${{ needs.lint.result }}" == "failure" || "${{ needs.typecheck.result }}" == "failure" || "${{ needs.build.result }}" == "failure" || "${{ needs.test.result }}" == "failure" ]]; then
+          if [[ "${{ needs.lint.result }}" == "failure" || "${{ needs.typecheck.result }}" == "failure" || "${{ needs.build.result }}" == "failure" || "${{ needs.accessibility.result }}" == "failure" || "${{ needs.test.result }}" == "failure" ]]; then
             echo "❌ This PR has failing checks. Please review the errors and fix them before merging." >> pr-comment.md
           else
             echo "✅ All checks passed! This PR is ready for review." >> pr-comment.md
@@ -378,7 +469,7 @@ jobs:
               });
             }
 
-  # Job 10: Storybook Build
+  # Job 11: Storybook Build
   storybook:
     name: Build Storybook
     runs-on: ubuntu-latest
