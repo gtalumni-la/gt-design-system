@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-58",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-58/",
+      "branch": "feature/component-usage-examples",
+      "pr": 58,
+      "commit": "3bb9dba9ed417ad0e8abfd3f7f5c37093dbf918b",
+      "created": "2025-08-21T01:50:56.452Z"
+    },
+    {
       "path": "pr-57",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-57/",
       "branch": "feature/simplify-github-actions",
@@ -151,14 +159,6 @@
       "pr": 49,
       "commit": "0c2a3f3348d7ae0c26cfb8547db083caee01bb74",
       "created": "2025-08-08T05:18:30.370Z"
-    },
-    {
-      "path": "gh-readonly-queue-main-pr-48-89bfcbcc0b840556ef4401a0ec070c14faab8dff",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-48-89bfcbcc0b840556ef4401a0ec070c14faab8dff/",
-      "branch": "gh-readonly-queue/main/pr-48-89bfcbcc0b840556ef4401a0ec070c14faab8dff",
-      "pr": null,
-      "commit": "52214916336d9612377dbf6185c425da12b87490",
-      "created": "2025-08-08T05:08:14.700Z"
     }
   ]
 }
