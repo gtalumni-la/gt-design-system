@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
+import 'jest-axe/extend-expect';
 
 // Mock Georgia Tech design tokens for testing
 vi.mock('@gtalumni-la/tokens', () => ({
