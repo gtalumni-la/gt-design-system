@@ -1,0 +1,77 @@
+{
+  "permissions": {
+    "tools": {
+      "Bash": {
+        "allowed_commands": [
+          "pnpm *",
+          "npm *", 
+          "git *",
+          "gh *",
+          "npx playwright *",
+          "npx axe *",
+          "python3 -m http.server *",
+          "kill *",
+          "mkdir *",
+          "chmod *",
+          "find *",
+          "grep *",
+          "cat *",
+          "rm *"
+        ]
+      }
+    }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'File modified: consider running tests with: pnpm test'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash:pnpm test*",
+        "hooks": [
+          {
+            "type": "command", 
+            "command": "echo 'Running tests - ensure all dependencies are installed'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash:git commit*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Pre-commit: Remember to run lint and type-check before committing'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'GT Design System loaded. Remember: accessibility first, test everything, follow conventional commits.'"
+          }
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "NODE_ENV": "development",
+    "CLAUDE_PROJECT_DIR": "/Users/angusp/workspace/@gtalumni-la/design-system"
+  },
+  "model": "claude-3-5-sonnet",
+  "notifications": {
+    "test_failures": true,
+    "accessibility_violations": true,
+    "build_errors": true
+  }
+}

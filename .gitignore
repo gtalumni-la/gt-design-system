@@ -128,3 +128,18 @@ Desktop.ini
 # Changesets
 .changeset/README.md
 packages/react/test-report.junit.xml
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Accessibility reports
+storybook-a11y-report.json
+accessibility-reports/
+
+# Claude Code local settings (keep .claude/settings.json for shared config)
+.claude/settings.local.json
+.claude/cache/
+.claude/logs/
