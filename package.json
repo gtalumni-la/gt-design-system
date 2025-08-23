@@ -49,6 +49,7 @@
     "publish-packages": "pnpm run build && pnpm changeset publish --registry https://registry.npmjs.org"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.10.2",
     "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^18.4.0",
     "@commitlint/config-conventional": "^18.4.0",

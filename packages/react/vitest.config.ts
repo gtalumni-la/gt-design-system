@@ -22,6 +22,7 @@ export default defineConfig({
         '**/*.stories.{ts,tsx}',
         'rollup.config.js',
         'vitest.config.ts',
+        '__test__/playwright/storybook-a11y.spec.js',
       ],
       thresholds: {
         global: {
