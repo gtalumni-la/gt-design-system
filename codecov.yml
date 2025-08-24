@@ -28,6 +28,9 @@ ignore:
   - "**/build/**"
   - "**/coverage/**"
   - "**/node_modules/**"
+  - "**/playwright-a11y-webkit.json"
+  - "**/playwright-a11y-firefox.json"
+  - "**/playwright-a11y-chromium.json"
 
 flag_management:
   default_rules:
