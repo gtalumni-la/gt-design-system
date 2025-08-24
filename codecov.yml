@@ -31,6 +31,7 @@ ignore:
   - "**/playwright-a11y-webkit.json"
   - "**/playwright-a11y-firefox.json"
   - "**/playwright-a11y-chromium.json"
+  - "**/playwright-a11y.config.js"
 
 flag_management:
   default_rules:
