@@ -13,13 +13,13 @@
     "format": "prettier --write \"./**/*.{ts,tsx,json,md}\""
   },
   "devDependencies": {
-    "vitepress": "^1.0.0",
-    "@types/node": "^20.0.0",
-    "vue": "^3.4.0"
+    "@types/node": "^24.3.0",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.20"
   },
   "dependencies": {
-    "@gtalumni-la/tokens": "workspace:*",
+    "@gtalumni-la/eslint": "workspace:*",
     "@gtalumni-la/react": "workspace:*",
-    "@gtalumni-la/eslint": "workspace:*"
+    "@gtalumni-la/tokens": "workspace:*"
   }
 }
