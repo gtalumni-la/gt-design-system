@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-61",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-61/",
+      "branch": "fix/enhance-dependency-update-workflow",
+      "pr": 61,
+      "commit": "a0934b64f23a4b8f7cbf47f06718511ba2f2fce7",
+      "created": "2025-08-26T03:43:27.149Z"
+    },
+    {
       "path": "pr-59",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-59/",
       "branch": "feature/accessibility-testing",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "0f012ad65be9376127c4103c8d99d8de030cda14",
       "created": "2025-08-08T05:26:13.256Z"
-    },
-    {
-      "path": "fix-changeset-validation-error",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/fix-changeset-validation-error/",
-      "branch": "fix/changeset-validation-error",
-      "pr": null,
-      "commit": "3bbfdfa75f28d115ea32b2b12aa8e71538ee18a2",
-      "created": "2025-08-08T05:21:27.554Z"
     }
   ]
 }
