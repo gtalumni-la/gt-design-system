@@ -48,41 +48,10 @@ jobs:
 
       - name: Run comprehensive quality checks
         if: steps.changes.outputs.has-changes == 'true'
-        run: |
-          echo "Running comprehensive CI checks to validate dependency updates..."
-          
-          # Install Playwright browsers for accessibility tests
-          pnpm --filter @gtalumni-la/react exec playwright install chromium
-          
-          # Run linting
-          echo "🔍 Running ESLint..."
-          pnpm lint
-          
-          # Run type checking
-          echo "🔤 Running TypeScript type check..."
-          pnpm type-check
-          
-          # Build all packages
-          echo "📦 Building all packages..."
-          pnpm build
-          
-          # Test Storybook build (critical for dependency compatibility)
-          echo "📚 Testing Storybook build..."
-          pnpm --filter @gtalumni-la/storybook docs:build
-          
-          # Run all tests including accessibility
-          echo "🧪 Running unit tests..."
-          pnpm test
-          
-          # Run accessibility tests
-          echo "♿ Running accessibility tests..."
-          pnpm --filter @gtalumni-la/react test a11y
-          
-          # Run security audit
-          echo "🔒 Running security audit..."
-          pnpm audit --audit-level moderate
-          
-          echo "✅ All quality checks passed!"
+        uses: ./.github/actions/quality-checks
+        with:
+          node-version: '20'
+          fail-fast: 'true'
 
       - name: Create Pull Request
         if: steps.changes.outputs.has-changes == 'true'

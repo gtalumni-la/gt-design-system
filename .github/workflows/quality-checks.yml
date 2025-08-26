@@ -1,0 +1,82 @@
+name: Quality Checks (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version to use'
+        required: false
+        type: string
+        default: '20'
+      
+      skip-accessibility:
+        description: 'Skip accessibility tests'
+        required: false
+        type: boolean
+        default: false
+        
+      skip-security-audit:
+        description: 'Skip security audit'
+        required: false
+        type: boolean
+        default: false
+        
+      fail-fast:
+        description: 'Fail immediately on first error'
+        required: false
+        type: boolean
+        default: true
+
+    outputs:
+      lint-result:
+        description: 'ESLint check result'
+        value: ${{ jobs.quality-checks.outputs.lint-result }}
+      
+      type-check-result:
+        description: 'TypeScript type check result'  
+        value: ${{ jobs.quality-checks.outputs.type-check-result }}
+        
+      build-result:
+        description: 'Build result'
+        value: ${{ jobs.quality-checks.outputs.build-result }}
+        
+      test-result:
+        description: 'Test result'
+        value: ${{ jobs.quality-checks.outputs.test-result }}
+        
+      accessibility-result:
+        description: 'Accessibility test result'
+        value: ${{ jobs.quality-checks.outputs.accessibility-result }}
+        
+      security-result:
+        description: 'Security audit result'
+        value: ${{ jobs.quality-checks.outputs.security-result }}
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  quality-checks:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    outputs:
+      lint-result: ${{ steps.quality-check.outputs.lint-result }}
+      type-check-result: ${{ steps.quality-check.outputs.type-check-result }}
+      build-result: ${{ steps.quality-check.outputs.build-result }}
+      test-result: ${{ steps.quality-check.outputs.test-result }}
+      accessibility-result: ${{ steps.quality-check.outputs.accessibility-result }}
+      security-result: ${{ steps.quality-check.outputs.security-result }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Quality Checks
+        id: quality-check
+        uses: ./.github/actions/quality-checks
+        with:
+          node-version: ${{ inputs.node-version }}
+          skip-accessibility: ${{ inputs.skip-accessibility }}
+          skip-security-audit: ${{ inputs.skip-security-audit }}
+          fail-fast: ${{ inputs.fail-fast }}

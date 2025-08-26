@@ -1,0 +1,153 @@
+name: 'Comprehensive Quality Checks'
+description: 'Run complete quality validation including linting, type checking, builds, tests, accessibility, and security'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '20'
+  
+  skip-accessibility:
+    description: 'Skip accessibility tests (for faster feedback in some contexts)'
+    required: false
+    default: 'false'
+    
+  skip-security-audit:
+    description: 'Skip security audit'
+    required: false
+    default: 'false'
+    
+  fail-fast:
+    description: 'Fail immediately on first error (vs. running all checks)'
+    required: false
+    default: 'true'
+
+outputs:
+  lint-result:
+    description: 'ESLint check result'
+    value: ${{ steps.lint-check.outcome }}
+  
+  type-check-result:
+    description: 'TypeScript type check result'
+    value: ${{ steps.type-check.outcome }}
+    
+  build-result:
+    description: 'Build result'
+    value: ${{ steps.build-check.outcome }}
+    
+  test-result:
+    description: 'Test result'
+    value: ${{ steps.test-check.outcome }}
+    
+  accessibility-result:
+    description: 'Accessibility test result'
+    value: ${{ steps.accessibility-check.outcome }}
+    
+  security-result:
+    description: 'Security audit result'
+    value: ${{ steps.security-check.outcome }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        run_install: false
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Install Playwright browsers (for accessibility tests)
+      if: inputs.skip-accessibility == 'false'
+      shell: bash
+      run: pnpm --filter @gtalumni-la/react exec playwright install chromium
+
+    # Quality Checks - Run in logical order
+    - name: 🔍 ESLint Validation
+      id: lint-check
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Running ESLint validation..."
+        pnpm lint
+
+    - name: 🔤 TypeScript Type Check
+      id: type-check
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Running TypeScript type check..."
+        pnpm type-check
+
+    - name: 📦 Build All Packages
+      id: build-check
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Building all packages..."
+        pnpm build
+
+    - name: 📚 Storybook Build Test
+      id: storybook-check
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Testing Storybook build (critical for dependency compatibility)..."
+        pnpm --filter @gtalumni-la/storybook docs:build
+
+    - name: 🧪 Unit Tests
+      id: test-check
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Running unit tests..."
+        pnpm test
+
+    - name: ♿ Accessibility Tests
+      id: accessibility-check
+      if: inputs.skip-accessibility == 'false'
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Running accessibility tests (WCAG 2.1 AA compliance)..."
+        pnpm --filter @gtalumni-la/react test a11y
+
+    - name: 🔒 Security Audit
+      id: security-check
+      if: inputs.skip-security-audit == 'false'
+      shell: bash
+      continue-on-error: ${{ inputs.fail-fast == 'false' }}
+      run: |
+        echo "Running security audit..."
+        pnpm audit --audit-level moderate
+
+    - name: ✅ Quality Check Summary
+      shell: bash
+      run: |
+        echo "## Quality Check Results" >> $GITHUB_STEP_SUMMARY
+        echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| ESLint | ${{ steps.lint-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Type Check | ${{ steps.type-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Build | ${{ steps.build-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Storybook | ${{ steps.storybook-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Tests | ${{ steps.test-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ inputs.skip-accessibility }}" == "false" ]]; then
+          echo "| Accessibility | ${{ steps.accessibility-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [[ "${{ inputs.skip-security-audit }}" == "false" ]]; then
+          echo "| Security | ${{ steps.security-check.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "All quality checks completed! 🎉" >> $GITHUB_STEP_SUMMARY
