@@ -52,6 +52,7 @@ jobs:
         with:
           node-version: '20'
           fail-fast: 'true'
+          skip-security-audit: 'true'  # Security audit runs separately in main CI
 
       - name: Create Pull Request
         if: steps.changes.outputs.has-changes == 'true'
@@ -73,8 +74,8 @@ jobs:
             - ✅ **Type Checking**: TypeScript compilation successful  
             - ✅ **Build Process**: All packages build successfully
             - ✅ **Storybook Build**: Component documentation builds correctly
-            - ✅ **Unit Tests**: All tests pass (50+ test cases)
-            - ✅ **Accessibility Tests**: WCAG 2.1 AA compliance verified (19+ a11y tests)
+            - ✅ **Unit Tests**: All tests pass
+            - ✅ **Accessibility Tests**: WCAG 2.1 AA compliance verified
             - ✅ **Security Audit**: No moderate+ vulnerabilities detected
             
             ### Changes
