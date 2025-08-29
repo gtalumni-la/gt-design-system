@@ -3,7 +3,14 @@ packages:
   - apps/*
 
 onlyBuiltDependencies:
-  - "@bundled-es-modules/glob"
+  - '@bundled-es-modules/glob'
+  - chromedriver
   - esbuild
   - style-dictionary
   - unrs-resolver
+
+overrides:
+  '@eslint/plugin-kit@<0.3.4': '>=0.3.4'
+  esbuild@<=0.24.2: '>=0.25.0'
+  on-headers@<1.1.0: '>=1.1.0'
+  tmp@<=0.2.3: '>=0.2.4'
