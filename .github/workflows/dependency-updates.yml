@@ -52,7 +52,6 @@ jobs:
         with:
           node-version: '20'
           fail-fast: 'true'
-          skip-security-audit: 'true'  # Security audit runs separately in main CI
 
       - name: Create Pull Request
         if: steps.changes.outputs.has-changes == 'true'
