@@ -62,6 +62,7 @@ export default {
         // General
         'release',
         'workspace',
+        'security',
       ],
     ],
     'scope-case': [2, 'always', 'lower-case'],
