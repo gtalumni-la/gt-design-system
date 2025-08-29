@@ -46,6 +46,14 @@ outputs:
   security-result:
     description: 'Security audit result'
     value: ${{ steps.security-check.outcome }}
+    
+  security-status:
+    description: 'Security audit status (clean/vulnerabilities-found)'
+    value: ${{ steps.security-check.outputs.security-status }}
+    
+  audit-results:
+    description: 'Security audit results details'
+    value: ${{ steps.security-check.outputs.AUDIT_RESULTS }}
 
 runs:
   using: 'composite'
@@ -133,7 +141,22 @@ runs:
       continue-on-error: true  # Don't fail CI on security issues, just report them
       run: |
         echo "Running security audit..."
-        pnpm audit --audit-level moderate
+        
+        # Run audit and capture results
+        if pnpm audit --audit-level moderate > audit-results.txt 2>&1; then
+          echo "✅ No security vulnerabilities found"
+          echo "security-status=clean" >> $GITHUB_OUTPUT
+        else
+          echo "⚠️ Security vulnerabilities detected"
+          echo "security-status=vulnerabilities-found" >> $GITHUB_OUTPUT
+          
+          # Extract vulnerability summary
+          echo "AUDIT_RESULTS<<EOF" >> $GITHUB_OUTPUT
+          cat audit-results.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "A GitHub issue will be created to track these vulnerabilities"
+        fi
 
     - name: ✅ Quality Check Summary
       shell: bash
