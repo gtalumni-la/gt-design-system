@@ -68,7 +68,7 @@
     "NODE_ENV": "development",
     "CLAUDE_PROJECT_DIR": "/Users/angusp/workspace/@gtalumni-la/design-system"
   },
-  "model": "claude-3-5-sonnet",
+  "model": "claude-sonnet-4-20250514",
   "notifications": {
     "test_failures": true,
     "accessibility_violations": true,
