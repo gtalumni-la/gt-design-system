@@ -1,0 +1,14 @@
+{
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0.1,
+  "max_tokens": 4000,
+  "project_context": {
+    "type": "design_system",
+    "framework": "react",
+    "build_system": "turbo_monorepo",
+    "testing": [
+      "vitest"
+    ],
+    "accessibility": "wcag_2.1_aa"
+  }
+}

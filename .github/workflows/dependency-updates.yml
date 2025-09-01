@@ -48,13 +48,134 @@ jobs:
 
       - name: Run comprehensive quality checks
         if: steps.changes.outputs.has-changes == 'true'
+        id: quality-checks
         uses: ./.github/actions/quality-checks
         with:
           node-version: '20'
-          fail-fast: 'true'
+          fail-fast: 'false'  # Don't fail fast so we can handle errors
+
+      - name: Evaluate quality check results
+        if: steps.changes.outputs.has-changes == 'true'
+        id: evaluate-results
+        run: |
+          # Check if all quality checks passed
+          QUALITY_SUCCESS="true"
+          if [[ "${{ steps.quality-checks.outputs.lint-result }}" != "success" ]]; then
+            QUALITY_SUCCESS="false"
+          fi
+          if [[ "${{ steps.quality-checks.outputs.type-check-result }}" != "success" ]]; then
+            QUALITY_SUCCESS="false"
+          fi
+          if [[ "${{ steps.quality-checks.outputs.build-result }}" != "success" ]]; then
+            QUALITY_SUCCESS="false"
+          fi
+          if [[ "${{ steps.quality-checks.outputs.test-result }}" != "success" ]]; then
+            QUALITY_SUCCESS="false"
+          fi
+          if [[ "${{ steps.quality-checks.outputs.accessibility-result }}" != "success" && "${{ steps.quality-checks.outputs.accessibility-result }}" != "skipped" ]]; then
+            QUALITY_SUCCESS="false"
+          fi
+          
+          # Check if any quality checks failed (excluding accessibility which can be skipped)
+          QUALITY_FAILED="false"
+          if [[ "${{ steps.quality-checks.outputs.lint-result }}" == "failure" || "${{ steps.quality-checks.outputs.type-check-result }}" == "failure" || "${{ steps.quality-checks.outputs.build-result }}" == "failure" || "${{ steps.quality-checks.outputs.test-result }}" == "failure" || "${{ steps.quality-checks.outputs.accessibility-result }}" == "failure" ]]; then
+            QUALITY_FAILED="true"
+          fi
+          
+          echo "quality-success=$QUALITY_SUCCESS" >> $GITHUB_OUTPUT
+          echo "quality-failed=$QUALITY_FAILED" >> $GITHUB_OUTPUT
+
+      - name: Create issue for security vulnerabilities
+        if: steps.changes.outputs.has-changes == 'true' && steps.quality-checks.outputs.security-status == 'vulnerabilities-found'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueTitle = `🔒 Security Vulnerabilities Found in Dependency Update - ${new Date().toISOString().split('T')[0]}`;
+            const issueBody = `## 🚨 Security Vulnerabilities Detected
+
+            Security vulnerabilities were found during the weekly dependency update process.
+
+            ### Audit Results
+            \`\`\`
+            ${{ steps.quality-checks.outputs.audit-results }}
+            \`\`\`
+
+            ### Recommended Actions
+            1. Review the vulnerabilities listed above
+            2. Update affected packages manually or add overrides
+            3. Re-run security audit: \`pnpm audit --audit-level moderate\`
+            4. Consider using \`pnpm overrides\` for packages that cannot be updated
+
+            ### Resources
+            - [npm audit documentation](https://docs.npmjs.com/cli/v8/commands/npm-audit)
+            - [pnpm overrides documentation](https://pnpm.io/package_json#pnpmoverrides)
+
+            ---
+            🤖 This issue was automatically created by the dependency update workflow.`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['security', 'dependencies', 'automated']
+            });
+
+      - name: Create issue for failed quality checks
+        if: steps.changes.outputs.has-changes == 'true' && steps.evaluate-results.outputs.quality-failed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueTitle = `❌ Dependency Update Failed Quality Checks - ${new Date().toISOString().split('T')[0]}`;
+            
+            const failedChecks = [];
+            if ('${{ steps.quality-checks.outputs.lint-result }}' === 'failure') failedChecks.push('ESLint');
+            if ('${{ steps.quality-checks.outputs.type-check-result }}' === 'failure') failedChecks.push('TypeScript');
+            if ('${{ steps.quality-checks.outputs.build-result }}' === 'failure') failedChecks.push('Build');
+            if ('${{ steps.quality-checks.outputs.test-result }}' === 'failure') failedChecks.push('Tests');
+            if ('${{ steps.quality-checks.outputs.accessibility-result }}' === 'failure') failedChecks.push('Accessibility');
+
+            const issueBody = `## ❌ Quality Checks Failed
+
+            The weekly dependency update failed quality checks and cannot be automatically merged.
+
+            ### Failed Checks
+            ${failedChecks.map(check => `- ❌ ${check}`).join('\n')}
+
+            ### Resolution Steps
+            1. Run the dependency update locally:
+               \`\`\`bash
+               pnpm update --latest --recursive
+               pnpm install
+               \`\`\`
+
+            2. Fix the failing checks:
+               \`\`\`bash
+               pnpm lint          # Fix linting issues
+               pnpm type-check    # Fix TypeScript errors
+               pnpm build         # Fix build issues
+               pnpm test          # Fix test failures
+               pnpm --filter @gtalumni-la/react test a11y  # Fix accessibility issues
+               \`\`\`
+
+            3. Create a manual PR with the fixes
+
+            ### Workflow Run
+            You can view the full workflow run and logs here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ---
+            🤖 This issue was automatically created by the dependency update workflow.`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['dependencies', 'quality-checks', 'automated']
+            });
 
       - name: Create Pull Request
-        if: steps.changes.outputs.has-changes == 'true'
+        if: steps.changes.outputs.has-changes == 'true' && steps.evaluate-results.outputs.quality-success == 'true'
         uses: peter-evans/create-pull-request@v5
         id: create-pr
         with:
@@ -92,7 +213,7 @@ jobs:
           delete-branch: true
           
       - name: PR Created Successfully
-        if: steps.changes.outputs.has-changes == 'true' && steps.create-pr.outputs.pull-request-number
+        if: steps.changes.outputs.has-changes == 'true' && steps.create-pr.outputs.pull-request-number && steps.evaluate-results.outputs.quality-success == 'true'
         run: |
           echo "✅ Dependency update PR created successfully!"
           echo "📋 PR #${{ steps.create-pr.outputs.pull-request-number }}"
