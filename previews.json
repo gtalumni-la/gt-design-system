@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-62",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-62/",
+      "branch": "feat/fix-dependency-update-workflow",
+      "pr": 62,
+      "commit": "82630c7b976e380e809d01cd40e673040ea1a217",
+      "created": "2025-09-01T19:53:33.493Z"
+    },
+    {
       "path": "pr-61",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-61/",
       "branch": "fix/enhance-dependency-update-workflow",
@@ -151,14 +159,6 @@
       "pr": 51,
       "commit": "51f6eaa2d7fd721f8e41f775a067963ce5d69540",
       "created": "2025-08-10T16:23:56.288Z"
-    },
-    {
-      "path": "gh-readonly-queue-main-pr-49-52214916336d9612377dbf6185c425da12b87490",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-49-52214916336d9612377dbf6185c425da12b87490/",
-      "branch": "gh-readonly-queue/main/pr-49-52214916336d9612377dbf6185c425da12b87490",
-      "pr": null,
-      "commit": "0f012ad65be9376127c4103c8d99d8de030cda14",
-      "created": "2025-08-08T05:26:13.256Z"
     }
   ]
 }
