@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-63",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-63/",
+      "branch": "feature/#16-refactor-3-tier-tokens",
+      "pr": 63,
+      "commit": "984799b1ebd3a884e80386caaf954a83233943e5",
+      "created": "2025-09-03T06:02:20.269Z"
+    },
+    {
       "path": "pr-62",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-62/",
       "branch": "feat/fix-dependency-update-workflow",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f",
       "created": "2025-08-10T16:25:13.420Z"
-    },
-    {
-      "path": "pr-51",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-51/",
-      "branch": "docs/add-documentation-badge",
-      "pr": 51,
-      "commit": "51f6eaa2d7fd721f8e41f775a067963ce5d69540",
-      "created": "2025-08-10T16:23:56.288Z"
     }
   ]
 }
