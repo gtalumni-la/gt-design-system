@@ -17,8 +17,8 @@ export default {
       fontWeight: 'string',
       duration: 'string',
       cubicBezier: 'string',
-      number: 'number'
-    }
+      number: 'number',
+    },
   },
   platforms: {
     scss: {
