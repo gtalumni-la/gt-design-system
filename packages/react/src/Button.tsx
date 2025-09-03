@@ -57,7 +57,7 @@ export const Button: FC<ButtonProps> = ({
     outline: {
       backgroundColor: 'transparent',
       color: GtColorPrimaryGold,
-      border: `2px solid ${GtColorPrimaryGold}`, // Ensure border color matches expected value
+      border: `2px solid ${GtColorPrimaryGold}`,
     },
   };
 
