@@ -3,91 +3,91 @@
     "color": {
       "primary": {
         "gold": {
-          "value": "#B3A369",
+          "value": "{color.gt-gold-500}",
           "comment": "Georgia Tech Primary Gold - Tech Gold"
         },
         "navy": {
-          "value": "#003057",
+          "value": "{color.gt-navy-800}",
           "comment": "Georgia Tech Primary Navy - Tech Navy"
         }
       },
       "secondary": {
         "blue": {
-          "value": "#0F446C",
+          "value": "{color.gt-blue-600}",
           "comment": "Georgia Tech Secondary Blue"
         },
         "gold-light": {
-          "value": "#EAAA00",
+          "value": "{color.gt-gold-light-400}",
           "comment": "Georgia Tech Light Gold"
         },
         "gold-dark": {
-          "value": "#857437",
+          "value": "{color.gt-gold-dark-600}",
           "comment": "Georgia Tech Dark Gold"
         }
       },
       "neutral": {
         "white": {
-          "value": "#FFFFFF",
+          "value": "{color.neutral-white}",
           "comment": "Pure white"
         },
         "black": {
-          "value": "#000000",
+          "value": "{color.neutral-black}",
           "comment": "Pure black"
         },
         "gray": {
           "100": {
-            "value": "#F8F9FA",
+            "value": "{color.neutral-gray-100}",
             "comment": "Lightest gray"
           },
           "200": {
-            "value": "#E9ECEF",
+            "value": "{color.neutral-gray-200}",
             "comment": "Light gray"
           },
           "300": {
-            "value": "#DEE2E6",
+            "value": "{color.neutral-gray-300}",
             "comment": "Medium light gray"
           },
           "400": {
-            "value": "#CED4DA",
+            "value": "{color.neutral-gray-400}",
             "comment": "Medium gray"
           },
           "500": {
-            "value": "#ADB5BD",
+            "value": "{color.neutral-gray-500}",
             "comment": "Medium dark gray"
           },
           "600": {
-            "value": "#6C757D",
+            "value": "{color.neutral-gray-600}",
             "comment": "Dark gray"
           },
           "700": {
-            "value": "#495057",
+            "value": "{color.neutral-gray-700}",
             "comment": "Darker gray"
           },
           "800": {
-            "value": "#343A40",
+            "value": "{color.neutral-gray-800}",
             "comment": "Very dark gray"
           },
           "900": {
-            "value": "#212529",
+            "value": "{color.neutral-gray-900}",
             "comment": "Darkest gray"
           }
         }
       },
       "semantic": {
         "success": {
-          "value": "#28A745",
+          "value": "{color.semantic-success}",
           "comment": "Success green"
         },
         "warning": {
-          "value": "#FFC107",
+          "value": "{color.semantic-warning}",
           "comment": "Warning yellow"
         },
         "error": {
-          "value": "#DC3545",
+          "value": "{color.semantic-error}",
           "comment": "Error red"
         },
         "info": {
-          "value": "#17A2B8",
+          "value": "{color.semantic-info}",
           "comment": "Info blue"
         }
       }

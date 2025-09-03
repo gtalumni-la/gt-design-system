@@ -1,0 +1,84 @@
+{
+  "color": {
+    "gt-gold-500": {
+      "value": "#B3A369",
+      "comment": "Georgia Tech Primary Gold - Tech Gold"
+    },
+    "gt-navy-800": {
+      "value": "#003057",
+      "comment": "Georgia Tech Primary Navy - Tech Navy"
+    },
+    "gt-blue-600": {
+      "value": "#0F446C",
+      "comment": "Georgia Tech Secondary Blue"
+    },
+    "gt-gold-light-400": {
+      "value": "#EAAA00",
+      "comment": "Georgia Tech Light Gold"
+    },
+    "gt-gold-dark-600": {
+      "value": "#857437",
+      "comment": "Georgia Tech Dark Gold"
+    },
+    "neutral-white": {
+      "value": "#FFFFFF",
+      "comment": "Pure white"
+    },
+    "neutral-black": {
+      "value": "#000000",
+      "comment": "Pure black"
+    },
+    "neutral-gray-100": {
+      "value": "#F8F9FA",
+      "comment": "Lightest gray"
+    },
+    "neutral-gray-200": {
+      "value": "#E9ECEF",
+      "comment": "Light gray"
+    },
+    "neutral-gray-300": {
+      "value": "#DEE2E6",
+      "comment": "Medium light gray"
+    },
+    "neutral-gray-400": {
+      "value": "#CED4DA",
+      "comment": "Medium gray"
+    },
+    "neutral-gray-500": {
+      "value": "#ADB5BD",
+      "comment": "Medium dark gray"
+    },
+    "neutral-gray-600": {
+      "value": "#6C757D",
+      "comment": "Dark gray"
+    },
+    "neutral-gray-700": {
+      "value": "#495057",
+      "comment": "Darker gray"
+    },
+    "neutral-gray-800": {
+      "value": "#343A40",
+      "comment": "Very dark gray"
+    },
+    "neutral-gray-900": {
+      "value": "#212529",
+      "comment": "Darkest gray"
+    },
+    "semantic-success": {
+      "value": "#28A745",
+      "comment": "Success green"
+    },
+    "semantic-warning": {
+      "value": "#FFC107",
+      "comment": "Warning yellow"
+    },
+    "semantic-error": {
+      "value": "#DC3545",
+      "comment": "Error red"
+    },
+    "semantic-info": {
+      "value": "#17A2B8",
+      "comment": "Info blue"
+    }
+  }
+}
