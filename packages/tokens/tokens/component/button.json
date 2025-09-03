@@ -1,0 +1,270 @@
+{
+  "component": {
+    "button": {
+      "primary": {
+        "background": {
+          "value": "{gt.color.primary.gold}",
+          "comment": "Primary button background color"
+        },
+        "backgroundHover": {
+          "value": "{gt.color.secondary.gold-dark}",
+          "comment": "Primary button background color on hover"
+        },
+        "text": {
+          "value": "{gt.color.neutral.white}",
+          "comment": "Primary button text color"
+        },
+        "border": {
+          "value": "none",
+          "comment": "Primary button border"
+        },
+        "fontFamily": {
+          "value": "{gt.font.family.secondary}",
+          "comment": "Primary button font family"
+        },
+        "fontWeight": {
+          "value": "{gt.font.weight.medium}",
+          "comment": "Primary button font weight"
+        },
+        "borderRadius": {
+          "value": "{gt.borderRadius.md}",
+          "comment": "Primary button border radius"
+        },
+        "paddingX": {
+          "sm": {
+            "value": "{gt.spacing.3}",
+            "comment": "Small primary button horizontal padding"
+          },
+          "md": {
+            "value": "{gt.spacing.4}",
+            "comment": "Medium primary button horizontal padding"
+          },
+          "lg": {
+            "value": "{gt.spacing.6}",
+            "comment": "Large primary button horizontal padding"
+          }
+        },
+        "paddingY": {
+          "sm": {
+            "value": "{gt.spacing.2}",
+            "comment": "Small primary button vertical padding"
+          },
+          "md": {
+            "value": "{gt.spacing.3}",
+            "comment": "Medium primary button vertical padding"
+          },
+          "lg": {
+            "value": "{gt.spacing.4}",
+            "comment": "Large primary button vertical padding"
+          }
+        },
+        "fontSize": {
+          "sm": {
+            "value": "{gt.font.size.sm}",
+            "comment": "Small primary button font size"
+          },
+          "md": {
+            "value": "{gt.font.size.base}",
+            "comment": "Medium primary button font size"
+          },
+          "lg": {
+            "value": "{gt.font.size.lg}",
+            "comment": "Large primary button font size"
+          }
+        }
+      },
+      "secondary": {
+        "background": {
+          "value": "{gt.color.primary.navy}",
+          "comment": "Secondary button background color"
+        },
+        "backgroundHover": {
+          "value": "{gt.color.secondary.blue}",
+          "comment": "Secondary button background color on hover"
+        },
+        "text": {
+          "value": "{gt.color.neutral.white}",
+          "comment": "Secondary button text color"
+        },
+        "border": {
+          "value": "none",
+          "comment": "Secondary button border"
+        },
+        "fontFamily": {
+          "value": "{gt.font.family.secondary}",
+          "comment": "Secondary button font family"
+        },
+        "fontWeight": {
+          "value": "{gt.font.weight.medium}",
+          "comment": "Secondary button font weight"
+        },
+        "borderRadius": {
+          "value": "{gt.borderRadius.md}",
+          "comment": "Secondary button border radius"
+        },
+        "paddingX": {
+          "sm": {
+            "value": "{gt.spacing.3}",
+            "comment": "Small secondary button horizontal padding"
+          },
+          "md": {
+            "value": "{gt.spacing.4}",
+            "comment": "Medium secondary button horizontal padding"
+          },
+          "lg": {
+            "value": "{gt.spacing.6}",
+            "comment": "Large secondary button horizontal padding"
+          }
+        },
+        "paddingY": {
+          "sm": {
+            "value": "{gt.spacing.2}",
+            "comment": "Small secondary button vertical padding"
+          },
+          "md": {
+            "value": "{gt.spacing.3}",
+            "comment": "Medium secondary button vertical padding"
+          },
+          "lg": {
+            "value": "{gt.spacing.4}",
+            "comment": "Large secondary button vertical padding"
+          }
+        },
+        "fontSize": {
+          "sm": {
+            "value": "{gt.font.size.sm}",
+            "comment": "Small secondary button font size"
+          },
+          "md": {
+            "value": "{gt.font.size.base}",
+            "comment": "Medium secondary button font size"
+          },
+          "lg": {
+            "value": "{gt.font.size.lg}",
+            "comment": "Large secondary button font size"
+          }
+        }
+      },
+      "outline": {
+        "background": {
+          "value": "transparent",
+          "comment": "Outline button background color"
+        },
+        "backgroundHover": {
+          "value": "{gt.color.primary.gold}",
+          "comment": "Outline button background color on hover"
+        },
+        "text": {
+          "value": "{gt.color.primary.gold}",
+          "comment": "Outline button text color"
+        },
+        "textHover": {
+          "value": "{gt.color.neutral.white}",
+          "comment": "Outline button text color on hover"
+        },
+        "borderWidth": {
+          "value": "{gt.borderWidth.2}",
+          "comment": "Outline button border width"
+        },
+        "borderColor": {
+          "value": "{gt.color.primary.gold}",
+          "comment": "Outline button border color"
+        },
+        "borderStyle": {
+          "value": "solid",
+          "comment": "Outline button border style"
+        },
+        "fontFamily": {
+          "value": "{gt.font.family.secondary}",
+          "comment": "Outline button font family"
+        },
+        "fontWeight": {
+          "value": "{gt.font.weight.medium}",
+          "comment": "Outline button font weight"
+        },
+        "borderRadius": {
+          "value": "{gt.borderRadius.md}",
+          "comment": "Outline button border radius"
+        },
+        "paddingX": {
+          "sm": {
+            "value": "{gt.spacing.3}",
+            "comment": "Small outline button horizontal padding"
+          },
+          "md": {
+            "value": "{gt.spacing.4}",
+            "comment": "Medium outline button horizontal padding"
+          },
+          "lg": {
+            "value": "{gt.spacing.6}",
+            "comment": "Large outline button horizontal padding"
+          }
+        },
+        "paddingY": {
+          "sm": {
+            "value": "{gt.spacing.2}",
+            "comment": "Small outline button vertical padding"
+          },
+          "md": {
+            "value": "{gt.spacing.3}",
+            "comment": "Medium outline button vertical padding"
+          },
+          "lg": {
+            "value": "{gt.spacing.4}",
+            "comment": "Large outline button vertical padding"
+          }
+        },
+        "fontSize": {
+          "sm": {
+            "value": "{gt.font.size.sm}",
+            "comment": "Small outline button font size"
+          },
+          "md": {
+            "value": "{gt.font.size.base}",
+            "comment": "Medium outline button font size"
+          },
+          "lg": {
+            "value": "{gt.font.size.lg}",
+            "comment": "Large outline button font size"
+          }
+        }
+      },
+      "disabled": {
+        "opacity": {
+          "value": "0.5",
+          "comment": "Disabled button opacity"
+        },
+        "cursor": {
+          "value": "not-allowed",
+          "comment": "Disabled button cursor"
+        }
+      },
+      "base": {
+        "display": {
+          "value": "inline-flex",
+          "comment": "Button display property"
+        },
+        "alignItems": {
+          "value": "center",
+          "comment": "Button align items"
+        },
+        "justifyContent": {
+          "value": "center",
+          "comment": "Button justify content"
+        },
+        "textDecoration": {
+          "value": "none",
+          "comment": "Button text decoration"
+        },
+        "cursor": {
+          "value": "pointer",
+          "comment": "Button cursor"
+        },
+        "transition": {
+          "value": "all 0.2s ease-in-out",
+          "comment": "Button transition"
+        }
+      }
+    }
+  }
+}

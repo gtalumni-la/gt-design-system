@@ -3,101 +3,101 @@
     "font": {
       "family": {
         "primary": {
-          "value": "\"Roboto Slab\", Georgia, serif",
+          "value": "{font.family.roboto-slab}",
           "comment": "Georgia Tech primary font family for headings"
         },
         "secondary": {
-          "value": "\"Source Sans Pro\", Arial, sans-serif",
+          "value": "{font.family.source-sans-pro}",
           "comment": "Georgia Tech secondary font family for body text"
         },
         "monospace": {
-          "value": "\"Roboto Mono\", Consolas, monospace",
+          "value": "{font.family.roboto-mono}",
           "comment": "Monospace font for code"
         }
       },
       "size": {
         "xs": {
-          "value": "0.75rem",
+          "value": "{font.size.12}",
           "comment": "12px - Extra small text"
         },
         "sm": {
-          "value": "0.875rem",
+          "value": "{font.size.14}",
           "comment": "14px - Small text"
         },
         "base": {
-          "value": "1rem",
+          "value": "{font.size.16}",
           "comment": "16px - Base font size"
         },
         "lg": {
-          "value": "1.125rem",
+          "value": "{font.size.18}",
           "comment": "18px - Large text"
         },
         "xl": {
-          "value": "1.25rem",
+          "value": "{font.size.20}",
           "comment": "20px - Extra large text"
         },
         "2xl": {
-          "value": "1.5rem",
+          "value": "{font.size.24}",
           "comment": "24px - 2X large text"
         },
         "3xl": {
-          "value": "1.875rem",
+          "value": "{font.size.30}",
           "comment": "30px - 3X large text"
         },
         "4xl": {
-          "value": "2.25rem",
+          "value": "{font.size.36}",
           "comment": "36px - 4X large text"
         },
         "5xl": {
-          "value": "3rem",
+          "value": "{font.size.48}",
           "comment": "48px - 5X large text"
         },
         "6xl": {
-          "value": "3.75rem",
+          "value": "{font.size.60}",
           "comment": "60px - 6X large text"
         }
       },
       "weight": {
         "light": {
-          "value": "300",
+          "value": "{font.weight.300}",
           "comment": "Light font weight"
         },
         "normal": {
-          "value": "400",
+          "value": "{font.weight.400}",
           "comment": "Normal font weight"
         },
         "medium": {
-          "value": "500",
+          "value": "{font.weight.500}",
           "comment": "Medium font weight"
         },
         "semibold": {
-          "value": "600",
+          "value": "{font.weight.600}",
           "comment": "Semi-bold font weight"
         },
         "bold": {
-          "value": "700",
+          "value": "{font.weight.700}",
           "comment": "Bold font weight"
         },
         "extrabold": {
-          "value": "800",
+          "value": "{font.weight.800}",
           "comment": "Extra bold font weight"
         }
       },
       "lineHeight": {
         "tight": {
-          "value": "1.25",
+          "value": "{font.lineHeight.tight}",
           "comment": "Tight line height"
         },
         "normal": {
-          "value": "1.5",
+          "value": "{font.lineHeight.normal}",
           "comment": "Normal line height"
         },
         "relaxed": {
-          "value": "1.625",
+          "value": "{font.lineHeight.relaxed}",
           "comment": "Relaxed line height"
         },
         "loose": {
-          "value": "2",
+          "value": "{font.lineHeight.loose}",
           "comment": "Loose line height"
         }
       }

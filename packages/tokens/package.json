@@ -61,7 +61,8 @@
     "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"./**/*.{ts,js,json,md}\"",
     "type-check": "tsc",
-    "prebuild": "npm run type-check"
+    "validate": "node scripts/validate-tokens.js",
+    "prebuild": "npm run type-check && npm run validate"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
