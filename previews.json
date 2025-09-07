@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-82",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-82/",
+      "branch": "copilot/fix-81",
+      "pr": 82,
+      "commit": "3cdf65a33221bee094e79a76bc623c4ff80b1af1",
+      "created": "2025-09-07T23:41:59.769Z"
+    },
+    {
       "path": "pr-79",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-79/",
       "branch": "feature/automate-changesets",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "c2794d7a1e786a91e858c26b7e4f65b964611527",
       "created": "2025-08-11T20:41:32.607Z"
-    },
-    {
-      "path": "pr-52",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-52/",
-      "branch": "fix/preserve-previews-in-main-deployment",
-      "pr": 52,
-      "commit": "6f9b196a4b075112d1c135c5dbe8a8818dfc2d50",
-      "created": "2025-08-11T14:39:55.612Z"
     }
   ]
 }
