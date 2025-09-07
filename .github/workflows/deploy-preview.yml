@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -140,16 +140,16 @@ jobs:
               commit: '${{ github.sha }}',
               created: new Date().toISOString()
             };
-            
+
             // Remove existing preview for this path
             previews.previews = previews.previews.filter(p => p.path !== newPreview.path);
-            
+
             // Add new preview
             previews.previews.unshift(newPreview);
-            
+
             // Keep only the latest 20 previews
             previews.previews = previews.previews.slice(0, 20);
-            
+
             fs.writeFileSync('previews.json', JSON.stringify(previews, null, 2));
             console.log('Updated previews.json with', newPreview.path);
           "
@@ -177,8 +177,8 @@ jobs:
               issue_number: context.issue.number
             });
 
-            const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && 
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
               comment.body.includes('📖 Documentation Preview')
             );
 

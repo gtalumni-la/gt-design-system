@@ -19,7 +19,7 @@ jobs:
       node-cache-key: ${{ steps.cache-key.outputs.key }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -42,7 +42,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -77,7 +77,34 @@ jobs:
     secrets: inherit
     with:
       node-version: '20'
-      fail-fast: false  # Run all checks to get complete picture
+      fail-fast: false # Run all checks to get complete picture
+
+  changesets:
+    name: Check for Changesets
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for changesets and version
+        run: pnpm changeset status --since=main --verbose
 
   # Job 4: Multi-node testing (existing pattern)
   test-matrix:
@@ -90,7 +117,7 @@ jobs:
         node-version: [18, 20, 22, 24]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -134,12 +161,12 @@ jobs:
           echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
           echo "| Quality Checks | ${{ needs.quality-checks.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Matrix Tests | ${{ needs.test-matrix.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          
+
           if [[ "${{ needs.quality-checks.result }}" == "failure" || "${{ needs.test-matrix.result }}" == "failure" ]]; then
             echo "❌ CI failed - please check the logs"
             exit 1
           fi
-          
+
           echo "✅ All CI checks passed!"
 
   # Job 7: PR comment with results
@@ -155,7 +182,7 @@ jobs:
         run: |
           cat > pr-comment.md << EOF
           ## 🔍 CI/CD Results
-          
+
           | Check | Status |
           |-------|--------|
           | 🔍 Quality Checks | ${{ needs.quality-checks.result == 'success' && '✅ Passed' || '❌ Failed' }} |
@@ -164,7 +191,7 @@ jobs:
 
           ### Quality Checks Breakdown
           - **Linting**: ${{ needs.quality-checks.outputs.lint-result == 'success' && '✅' || '❌' }}
-          - **Type Check**: ${{ needs.quality-checks.outputs.type-check-result == 'success' && '✅' || '❌' }}  
+          - **Type Check**: ${{ needs.quality-checks.outputs.type-check-result == 'success' && '✅' || '❌' }}
           - **Build**: ${{ needs.quality-checks.outputs.build-result == 'success' && '✅' || '❌' }}
           - **Tests**: ${{ needs.quality-checks.outputs.test-result == 'success' && '✅' || '❌' }}
           - **Accessibility**: ${{ needs.quality-checks.outputs.accessibility-result == 'success' && '✅' || '❌' }}
@@ -177,17 +204,17 @@ jobs:
           script: |
             const fs = require('fs');
             const comment = fs.readFileSync('pr-comment.md', 'utf8');
-            
+
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
-            const botComment = comments.find(comment => 
+
+            const botComment = comments.find(comment =>
               comment.user.type === 'Bot' && comment.body.includes('🔍 CI/CD Results')
             );
-            
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,

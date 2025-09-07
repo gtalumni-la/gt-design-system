@@ -19,7 +19,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
@@ -52,7 +52,7 @@ jobs:
         uses: ./.github/actions/quality-checks
         with:
           node-version: '20'
-          fail-fast: 'false'  # Don't fail fast so we can handle errors
+          fail-fast: 'false' # Don't fail fast so we can handle errors
 
       - name: Evaluate quality check results
         if: steps.changes.outputs.has-changes == 'true'
@@ -75,13 +75,13 @@ jobs:
           if [[ "${{ steps.quality-checks.outputs.accessibility-result }}" != "success" && "${{ steps.quality-checks.outputs.accessibility-result }}" != "skipped" ]]; then
             QUALITY_SUCCESS="false"
           fi
-          
+
           # Check if any quality checks failed (excluding accessibility which can be skipped)
           QUALITY_FAILED="false"
           if [[ "${{ steps.quality-checks.outputs.lint-result }}" == "failure" || "${{ steps.quality-checks.outputs.type-check-result }}" == "failure" || "${{ steps.quality-checks.outputs.build-result }}" == "failure" || "${{ steps.quality-checks.outputs.test-result }}" == "failure" || "${{ steps.quality-checks.outputs.accessibility-result }}" == "failure" ]]; then
             QUALITY_FAILED="true"
           fi
-          
+
           echo "quality-success=$QUALITY_SUCCESS" >> $GITHUB_OUTPUT
           echo "quality-failed=$QUALITY_FAILED" >> $GITHUB_OUTPUT
 
@@ -127,7 +127,7 @@ jobs:
         with:
           script: |
             const issueTitle = `❌ Dependency Update Failed Quality Checks - ${new Date().toISOString().split('T')[0]}`;
-            
+
             const failedChecks = [];
             if ('${{ steps.quality-checks.outputs.lint-result }}' === 'failure') failedChecks.push('ESLint');
             if ('${{ steps.quality-checks.outputs.type-check-result }}' === 'failure') failedChecks.push('TypeScript');
@@ -189,15 +189,15 @@ jobs:
 
             ### Validation Completed ✅
             This update has passed comprehensive quality checks:
-            
+
             - ✅ **Linting**: ESLint validation passed
-            - ✅ **Type Checking**: TypeScript compilation successful  
+            - ✅ **Type Checking**: TypeScript compilation successful
             - ✅ **Build Process**: All packages build successfully
             - ✅ **Storybook Build**: Component documentation builds correctly
             - ✅ **Unit Tests**: All tests pass
             - ✅ **Accessibility Tests**: WCAG 2.1 AA compliance verified
             - ✅ **Security Audit**: No moderate+ vulnerabilities detected
-            
+
             ### Changes
             - Updated all dependencies to latest versions
             - Maintained backward compatibility
@@ -207,11 +207,11 @@ jobs:
             - All critical quality gates have passed
             - No breaking changes detected in this update
             - Safe to merge if PR checks are green
-            
+
             🤖 This PR was automatically created with comprehensive testing
           branch: chore/dependency-updates
           delete-branch: true
-          
+
       - name: PR Created Successfully
         if: steps.changes.outputs.has-changes == 'true' && steps.create-pr.outputs.pull-request-number && steps.evaluate-results.outputs.quality-success == 'true'
         run: |
@@ -221,7 +221,7 @@ jobs:
           echo ""
           echo "The PR has passed comprehensive quality checks including:"
           echo "- Linting and type checking"
-          echo "- Package builds (including Storybook)"  
+          echo "- Package builds (including Storybook)"
           echo "- Unit and accessibility tests"
           echo "- Security audit"
           echo ""
