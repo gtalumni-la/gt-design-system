@@ -4,15 +4,15 @@
       "family": {
         "primary": {
           "value": "{font.family.roboto-slab}",
-          "comment": "Georgia Tech primary font family for headings"
+          "comment": "Georgia Tech primary font family for headings per GT brand guidelines"
         },
         "secondary": {
-          "value": "{font.family.source-sans-pro}",
-          "comment": "Georgia Tech secondary font family for body text"
+          "value": "{font.family.roboto}",
+          "comment": "Georgia Tech body font - Roboto for all digital text per GT brand guidelines"
         },
         "monospace": {
           "value": "{font.family.roboto-mono}",
-          "comment": "Monospace font for code"
+          "comment": "Monospace font for code - complements Roboto family"
         }
       },
       "size": {
