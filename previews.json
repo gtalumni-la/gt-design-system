@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-78",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-78/",
+      "branch": "feature/ignore-zed-settings",
+      "pr": 78,
+      "commit": "e001dcfa077b44f1463b036ddce3a283bdff30ec",
+      "created": "2025-09-07T17:43:01.165Z"
+    },
+    {
       "path": "pr-76",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-76/",
       "branch": "fix/typography-tokens-gt-brand-compliance",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "5d523631abb5d0850e84a6feaa7294c60c272d1b",
       "created": "2025-08-11T14:38:11.668Z"
-    },
-    {
-      "path": "pr-50",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-50/",
-      "branch": "fix/changeset-config-final",
-      "pr": 50,
-      "commit": "9a8302908d0caca8d50472de64fbd6d276acc977",
-      "created": "2025-08-11T14:36:45.915Z"
     }
   ]
 }
