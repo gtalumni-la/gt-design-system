@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-79",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-79/",
+      "branch": "feature/automate-changesets",
+      "pr": 79,
+      "commit": "cb18382d23ec1be17e395e5ca16681d95138311b",
+      "created": "2025-09-07T19:39:03.634Z"
+    },
+    {
       "path": "pr-78",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-78/",
       "branch": "feature/ignore-zed-settings",
@@ -151,14 +159,6 @@
       "pr": 52,
       "commit": "6f9b196a4b075112d1c135c5dbe8a8818dfc2d50",
       "created": "2025-08-11T14:39:55.612Z"
-    },
-    {
-      "path": "gh-readonly-queue-main-pr-50-e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-50-e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f/",
-      "branch": "gh-readonly-queue/main/pr-50-e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f",
-      "pr": null,
-      "commit": "5d523631abb5d0850e84a6feaa7294c60c272d1b",
-      "created": "2025-08-11T14:38:11.668Z"
     }
   ]
 }
