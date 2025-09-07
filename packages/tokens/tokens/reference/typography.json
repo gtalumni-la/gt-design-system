@@ -2,16 +2,16 @@
   "font": {
     "family": {
       "roboto-slab": {
-        "value": "\"Roboto Slab\", Georgia, serif",
-        "comment": "Georgia Tech primary font family for headings"
+        "value": "\"Roboto Slab\", Georgia, \"Times New Roman\", serif",
+        "comment": "Georgia Tech primary font family for headings per GT brand guidelines"
       },
-      "source-sans-pro": {
-        "value": "\"Source Sans Pro\", Arial, sans-serif",
-        "comment": "Georgia Tech secondary font family for body text"
+      "roboto": {
+        "value": "\"Roboto\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "comment": "Georgia Tech body font - Roboto for all digital text per GT brand guidelines"
       },
       "roboto-mono": {
-        "value": "\"Roboto Mono\", Consolas, monospace",
-        "comment": "Monospace font for code"
+        "value": "\"Roboto Mono\", \"SF Mono\", Monaco, Consolas, \"Courier New\", monospace",
+        "comment": "Monospace font for code - complements Roboto family"
       }
     },
     "size": {
