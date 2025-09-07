@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-76",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-76/",
+      "branch": "fix/typography-tokens-gt-brand-compliance",
+      "pr": 76,
+      "commit": "7fe5195381bce0cc142b4bbdb79acd302ecd6186",
+      "created": "2025-09-07T14:04:22.695Z"
+    },
+    {
       "path": "pr-63",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-63/",
       "branch": "feature/#16-refactor-3-tier-tokens",
@@ -151,14 +159,6 @@
       "pr": 50,
       "commit": "9a8302908d0caca8d50472de64fbd6d276acc977",
       "created": "2025-08-11T14:36:45.915Z"
-    },
-    {
-      "path": "gh-readonly-queue-main-pr-51-0f012ad65be9376127c4103c8d99d8de030cda14",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-51-0f012ad65be9376127c4103c8d99d8de030cda14/",
-      "branch": "gh-readonly-queue/main/pr-51-0f012ad65be9376127c4103c8d99d8de030cda14",
-      "pr": null,
-      "commit": "e3b31bfe4c32157c0a5e480e8b7aa4eceeede66f",
-      "created": "2025-08-10T16:25:13.420Z"
     }
   ]
 }
