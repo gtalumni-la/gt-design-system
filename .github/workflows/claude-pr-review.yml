@@ -1,0 +1,151 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  pull_request_review_comment:
+    types: [created]
+  issue_comment:
+    types: [created, edited]
+
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  claude-review:
+    name: Claude Code Review
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'pull_request' && github.event.action != 'closed') ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude'))
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Claude Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Anthropic API configuration
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          # GitHub configuration
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Review configuration for GT Design System
+          system-prompt: |
+            You are a senior software engineer reviewing code for the Georgia Tech Alumni Association Design System.
+
+            Focus on:
+            - Accessibility compliance (WCAG 2.1 AA standards)
+            - Design token usage and consistency with GT brand guidelines
+            - Component architecture and reusability
+            - TypeScript type safety and proper interface definitions
+            - Test coverage, especially accessibility tests with jest-axe
+            - Performance implications for the component library
+            - Documentation completeness in Storybook
+            - Adherence to the monorepo structure and conventions
+            - Proper use of GT colors (#B3A369 gold, #003057 navy)
+            - CSS-in-JS implementation and responsive design
+
+            Code quality standards:
+            - All components must be accessible and keyboard navigable
+            - Use conventional commit messages
+            - Maintain 80%+ test coverage
+            - Follow existing patterns from the codebase
+            - Export components as named exports with proper TypeScript types
+
+            When reviewing, provide:
+            1. Specific, actionable feedback
+            2. Code examples for suggested improvements
+            3. Links to relevant documentation when applicable
+            4. Accessibility considerations and ARIA requirements
+            5. Performance and bundle size impact assessment
+
+          # Trigger configuration
+          auto-review: true
+          review-on-push: true
+
+          # Comment configuration
+          review-comment-tag: "claude-review"
+
+          # File filtering - focus on relevant files
+          include-patterns: |
+            packages/**/*.ts
+            packages/**/*.tsx
+            packages/**/*.js
+            packages/**/*.jsx
+            packages/**/*.json
+            apps/**/*.ts
+            apps/**/*.tsx
+            apps/**/*.js
+            apps/**/*.jsx
+            *.md
+            .github/workflows/*.yml
+
+          exclude-patterns: |
+            **/node_modules/**
+            **/dist/**
+            **/build/**
+            **/.turbo/**
+            **/coverage/**
+            **/*.test.*
+            **/*.spec.*
+
+          # Model configuration
+          model: claude-3-5-sonnet-20241022
+
+          # Rate limiting
+          max-tokens: 4000
+
+          # Review depth
+          review-level: thorough
+
+      - name: Update PR with Claude Review Status
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const claudeComments = comments.filter(comment =>
+              comment.body.includes('claude-review') ||
+              comment.user.login === 'github-actions[bot]'
+            );
+
+            if (claudeComments.length === 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `## 🤖 Claude AI Review
+
+✅ **Claude has reviewed this PR**
+
+The AI code review has been completed. Check the review comments above for detailed feedback on:
+- Accessibility compliance and WCAG standards
+- Design system consistency and GT brand guidelines
+- Component architecture and TypeScript implementation
+- Test coverage and documentation completeness
+
+**Need specific feedback?** Mention \`@claude\` in a comment with your question.
+
+---
+*Powered by [Anthropic Claude](https://www.anthropic.com/claude) | [GT Design System Guidelines](../CLAUDE.md)*`
+              });
+            }
