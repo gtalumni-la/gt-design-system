@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-83",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-83/",
+      "branch": "feature/claude-pr-reviews",
+      "pr": 83,
+      "commit": "88bab9d02f6d7ffacfeb9220fd5887fd86e53cdd",
+      "created": "2025-09-09T04:15:02.283Z"
+    },
+    {
       "path": "pr-82",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-82/",
       "branch": "copilot/fix-81",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "e4985a4c7838410d173a1c062da93d112643c288",
       "created": "2025-08-12T20:20:36.731Z"
-    },
-    {
-      "path": "gh-readonly-queue-main-pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/gh-readonly-queue-main-pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b/",
-      "branch": "gh-readonly-queue/main/pr-52-5d523631abb5d0850e84a6feaa7294c60c272d1b",
-      "pr": null,
-      "commit": "c2794d7a1e786a91e858c26b7e4f65b964611527",
-      "created": "2025-08-11T20:41:32.607Z"
     }
   ]
 }
