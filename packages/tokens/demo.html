@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GT Design System OKLCH Color Migration Demo</title>
+    <link rel="stylesheet" href="./dist/css/variables.css" />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        margin: 2rem;
+        background: var(--gt-color-neutral-white);
+        color: var(--gt-color-neutral-gray-800);
+      }
+
+      h1 {
+        color: var(--gt-color-gt-navy-800);
+      }
+
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .color-section {
+        border: 1px solid var(--gt-color-neutral-gray-300);
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .color-section h3 {
+        margin-top: 0;
+        color: var(--gt-color-gt-navy-800);
+      }
+
+      .color-swatch {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid var(--gt-color-neutral-gray-200);
+      }
+
+      .color-box {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        margin-right: 1rem;
+        border: 1px solid var(--gt-color-neutral-gray-300);
+      }
+
+      .color-info {
+        flex: 1;
+      }
+
+      .color-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .color-values {
+        font-size: 0.875rem;
+        color: var(--gt-color-neutral-gray-600);
+        font-family: monospace;
+      }
+
+      .comparison-section {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 2px solid var(--gt-color-gt-gold-500);
+        border-radius: 8px;
+        background: var(--gt-color-neutral-gray-100);
+      }
+
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .comparison-card {
+        padding: 1rem;
+        border-radius: 4px;
+        background: var(--gt-color-neutral-white);
+        border: 1px solid var(--gt-color-neutral-gray-300);
+      }
+
+      .hex-only {
+        background: #b3a369;
+      }
+
+      .oklch-primary {
+        background: oklch(0.7158 0.0791 94.52);
+      }
+
+      .browser-support {
+        margin: 2rem 0;
+        padding: 1rem;
+        background: var(--gt-color-semantic-info);
+        color: white;
+        border-radius: 8px;
+      }
+
+      .benefits-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .benefits-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--gt-color-neutral-gray-200);
+      }
+
+      .benefits-list li:before {
+        content: '✓';
+        color: var(--gt-color-semantic-success);
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>GT Design System OKLCH Color Migration</h1>
+
+    <div class="browser-support">
+      <h3>🌐 Browser Support Status</h3>
+      <p>
+        <strong>OKLCH Support:</strong> Chrome 111+, Firefox 113+, Safari 15.4+
+        (March 2023+)
+      </p>
+      <p><strong>Fallback:</strong> Hex values work in all browsers</p>
+      <p>
+        <strong>Current Browser OKLCH Support:</strong>
+        <span id="oklch-support"></span>
+      </p>
+    </div>
+
+    <div class="comparison-section">
+      <h3>🎨 OKLCH vs Hex Comparison</h3>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h4>Hex Only (Legacy)</h4>
+          <div class="color-box hex-only"></div>
+          <code>#B3A369</code>
+        </div>
+        <div class="comparison-card">
+          <h4>OKLCH (Modern)</h4>
+          <div class="color-box oklch-primary"></div>
+          <code>oklch(0.7158 0.0791 94.52)</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-grid">
+      <div class="color-section">
+        <h3>🟡 GT Primary Colors</h3>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-gt-gold-500)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">GT Gold</div>
+            <div class="color-values">
+              HEX: #B3A369<br />
+              OKLCH: oklch(0.7158 0.0791 94.52)
+            </div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-gt-navy-800)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">GT Navy</div>
+            <div class="color-values">
+              HEX: #003057<br />
+              OKLCH: oklch(0.3037 0.0848 249.46)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-section">
+        <h3>🔵 GT Secondary Colors</h3>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-gt-blue-600)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">GT Blue</div>
+            <div class="color-values">
+              HEX: #0F446C<br />
+              OKLCH: oklch(0.3749 0.0869 246.45)
+            </div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-gt-gold-light-400)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">GT Light Gold</div>
+            <div class="color-values">
+              HEX: #EAAA00<br />
+              OKLCH: oklch(0.7779 0.1605 81.34)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-section">
+        <h3>⚪ Neutral Colors</h3>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-neutral-gray-300)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">Gray 300</div>
+            <div class="color-values">
+              HEX: #DEE2E6<br />
+              OKLCH: oklch(0.9109 0.007 248.08)
+            </div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-neutral-gray-600)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">Gray 600</div>
+            <div class="color-values">
+              HEX: #6C757D<br />
+              OKLCH: oklch(0.5575 0.0165 244.95)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-section">
+        <h3>🚦 Semantic Colors</h3>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-semantic-success)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">Success</div>
+            <div class="color-values">
+              HEX: #28A745<br />
+              OKLCH: oklch(0.6401 0.1751 146.76)
+            </div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div
+            class="color-box"
+            style="background: var(--gt-color-semantic-error)"
+          ></div>
+          <div class="color-info">
+            <div class="color-name">Error</div>
+            <div class="color-values">
+              HEX: #DC3545<br />
+              OKLCH: oklch(0.5916 0.202 21.23)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-section">
+      <h3>🎯 OKLCH Benefits</h3>
+      <ul class="benefits-list">
+        <li>
+          <strong>Perceptual Uniformity:</strong> Equal numeric changes result
+          in equal perceived color changes
+        </li>
+        <li>
+          <strong>Better Color Manipulation:</strong> Predictable lightness,
+          chroma, and hue adjustments
+        </li>
+        <li>
+          <strong>Improved Accessibility:</strong> More consistent contrast
+          ratio calculations
+        </li>
+        <li>
+          <strong>Future-Proof:</strong> Modern CSS standard with growing
+          browser support
+        </li>
+        <li>
+          <strong>Design Accuracy:</strong> Colors appear as intended by
+          designers across devices
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      // Check OKLCH support
+      function checkOklchSupport() {
+        try {
+          const testElement = document.createElement('div');
+          testElement.style.color = 'oklch(0.5 0.1 180)';
+          return testElement.style.color !== '';
+        } catch (e) {
+          return false;
+        }
+      }
+
+      document.getElementById('oklch-support').textContent = checkOklchSupport()
+        ? '✅ Supported'
+        : '❌ Not Supported (using hex fallback)';
+    </script>
+  </body>
+</html>

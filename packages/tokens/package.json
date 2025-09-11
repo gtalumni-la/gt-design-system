@@ -17,7 +17,8 @@
     "./scss": "./dist/scss/_variables.scss",
     "./json": "./dist/json/tokens.json",
     "./js": "./dist/js/tokens.js",
-    "./ts": "./dist/ts/tokens.ts"
+    "./ts": "./dist/ts/tokens.ts",
+    "./colors": "./dist/src/colors-oklch.js"
   },
   "repository": {
     "type": "git",
