@@ -1,8 +1,14 @@
 # @gtalumni-la/tokens
 
-## 1.0.0
+## 0.4.1-alpha.0
 
-### Major Changes
+### Patch Changes
+
+- Test prerelease versioning workflow
+
+## 0.4.0
+
+### Minor Changes
 
 - d4ca1ee: Simplify OKLCH color space implementation
 
@@ -12,8 +18,6 @@
   - Removes redundant build scripts and duplicate CSS generation
   - Maintains same OKLCH functionality with 50% less complexity
   - Zero breaking changes for existing component consumers
-
-  BREAKING CHANGE: Removes `./css-oklch` package export - use `./css` which now includes both hex and OKLCH values with automatic fallbacks.
 
   Closes #11
 

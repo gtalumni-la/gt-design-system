@@ -1,5 +1,12 @@
 # @gtalumni-la/react
 
+## 0.1.4-alpha.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @gtalumni-la/tokens@0.4.1-alpha.0
+
 ## 0.1.3
 
 ### Patch Changes
