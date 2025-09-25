@@ -1,6 +1,6 @@
 {
   "name": "@gtalumni-la/tokens",
-  "version": "1.0.0",
+  "version": "0.4.1-alpha.0",
   "description": "Tokens - Georgia Tech Alumni Association design tokens generated with Style Dictionary",
   "type": "module",
   "main": "dist/js/tokens.js",

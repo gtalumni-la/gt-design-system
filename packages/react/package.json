@@ -1,6 +1,6 @@
 {
   "name": "@gtalumni-la/react",
-  "version": "0.1.3",
+  "version": "0.1.4-alpha.0",
   "description": "React - Georgia Tech Alumni Association React UI Components",
   "type": "module",
   "main": "dist/index.js",

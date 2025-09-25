@@ -45,6 +45,10 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm run build && changeset publish",
+    "prerelease:enter": "changeset pre enter alpha",
+    "prerelease:exit": "changeset pre exit",
+    "prerelease:version": "changeset version",
+    "prerelease:publish": "pnpm run build && changeset publish --tag alpha",
     "prepare": "husky install",
     "publish-packages": "pnpm run build && pnpm changeset publish --registry https://registry.npmjs.org"
   },
