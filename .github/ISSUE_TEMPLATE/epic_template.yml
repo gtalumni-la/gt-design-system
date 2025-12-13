@@ -1,0 +1,201 @@
+name: 🚀 Epic Template
+description: Large feature or initiative spanning multiple issues
+title: "EPIC: "
+labels: ["epic", "enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Use this template for large initiatives that span multiple issues.** This helps organize complex work for both human and AI development.
+
+  - type: input
+    id: epic-name
+    attributes:
+      label: 🚀 Epic Name
+      description: Concise name for this epic
+      placeholder: "GT Brand Extensions, Accessibility Framework, etc."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: epic-category
+    attributes:
+      label: 📂 Epic Category
+      description: What type of work does this epic represent?
+      options:
+        - "Core Infrastructure - Foundation systems and architecture"
+        - "Component Library - New components and enhancements"
+        - "Design Tokens - Token system improvements"
+        - "Developer Experience - Tooling and workflows"
+        - "Quality Assurance - Testing and validation systems"
+        - "Documentation - Guides and references"
+        - "Performance - Optimization and monitoring"
+        - "Accessibility - A11y improvements and compliance"
+        - "Brand Extensions - GT brand-specific features"
+    validations:
+      required: true
+
+  - type: textarea
+    id: epic-overview
+    attributes:
+      label: 📋 Epic Overview
+      description: High-level description of what this epic accomplishes
+      placeholder: |
+        This epic encompasses...
+
+        **Goals:**
+        - Primary objective
+        - Secondary objectives
+
+        **Scope:**
+        - What's included
+        - What's explicitly excluded
+    validations:
+      required: true
+
+  - type: textarea
+    id: epic-scope
+    attributes:
+      label: 🎯 Detailed Scope
+      description: Break down the epic into major areas of work
+      placeholder: |
+        ### Major Work Streams:
+        1. **Area 1:** Description
+        2. **Area 2:** Description
+        3. **Area 3:** Description
+
+        ### Deliverables:
+        - Deliverable 1
+        - Deliverable 2
+        - Deliverable 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: 📦 Prerequisites
+      description: What must be completed before starting this epic?
+      placeholder: |
+        **Hard Dependencies:**
+        - Issue #XX must be completed
+        - Component Y must be implemented
+
+        **Soft Dependencies:**
+        - Would benefit from Issue #YY
+        - Consider completing ZZ first
+
+  - type: textarea
+    id: child-issues
+    attributes:
+      label: 🔗 Child Issues
+      description: Break down the epic into specific, implementable issues
+      placeholder: |
+        **Phase 1: Foundation**
+        - [ ] #XX - Issue title
+        - [ ] #YY - Issue title
+
+        **Phase 2: Implementation**
+        - [ ] #ZZ - Issue title
+        - [ ] #AA - Issue title
+
+        **Phase 3: Integration**
+        - [ ] #BB - Issue title
+        - [ ] #CC - Issue title
+
+        *Note: Create individual issues for each item and link them here*
+
+  - type: dropdown
+    id: epic-priority
+    attributes:
+      label: 📊 Epic Priority
+      description: How important is this epic for the design system?
+      options:
+        - "Critical - Required for core functionality"
+        - "High - Important for complete system"
+        - "Medium - Valuable enhancement"
+        - "Low - Nice to have / Future consideration"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: epic-size
+    attributes:
+      label: 📏 Epic Size
+      description: Rough estimate of epic complexity
+      options:
+        - "Small - 1-3 issues, 1-2 weeks"
+        - "Medium - 4-8 issues, 1-2 months"
+        - "Large - 9-15 issues, 2-4 months"
+        - "Extra Large - 16+ issues, 4+ months"
+
+  - type: input
+    id: target-milestone
+    attributes:
+      label: 🎯 Target Milestone
+      description: When should this epic be completed?
+      placeholder: "Q1 2026 - Foundation"
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: ✅ Epic Completion Criteria
+      description: How do we know when this epic is done?
+      placeholder: |
+        **Success Metrics:**
+        - All child issues completed
+        - Quality gates passed
+        - Documentation updated
+        - Tests passing
+
+        **Definition of Done:**
+        - Feature works as specified
+        - Accessibility requirements met
+        - Performance benchmarks satisfied
+        - User documentation complete
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-strategy
+    attributes:
+      label: 🛠️ Implementation Strategy
+      description: High-level approach for implementing this epic
+      placeholder: |
+        **Approach:**
+        - Phase-based implementation
+        - Dependencies managed in order
+        - Quality gates at each phase
+
+        **Risk Mitigation:**
+        - Potential blockers identified
+        - Alternative approaches considered
+        - Testing strategy defined
+
+  - type: dropdown
+    id: agent-suitability
+    attributes:
+      label: 🤖 Agent Implementation Suitability
+      description: How suitable is this epic for AI agent assistance?
+      options:
+        - "High - Well-defined, can be largely automated"
+        - "Medium - Some parts suitable for agents"
+        - "Low - Requires significant human oversight"
+        - "Manual - Human-driven with agent support"
+
+  - type: checkboxes
+    id: epic-checklist
+    attributes:
+      label: 📋 Epic Planning Checklist
+      description: Ensure epic is properly planned
+      options:
+        - label: Epic scope is clearly defined and bounded
+          required: true
+        - label: Child issues have been identified (even if not created yet)
+          required: true
+        - label: Dependencies and prerequisites are documented
+          required: true
+        - label: Success criteria are measurable and specific
+          required: true
+        - label: Implementation approach has been considered
+          required: true

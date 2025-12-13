@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "penpot": {
+      "command": "/Users/angusp/workspace/@gtalumni-la/design-system/.mcp/start-penpot-mcp.sh",
+      "args": []
+    }
+  }
+}
