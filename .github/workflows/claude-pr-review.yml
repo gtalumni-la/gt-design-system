@@ -17,6 +17,7 @@ permissions:
   contents: read
   pull-requests: write
   issues: write
+  id-token: write
 
 jobs:
   claude-review:
@@ -133,7 +134,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: |
+                body: `
                   ## 🤖 Claude AI Review
 
                   ✅ **Claude has reviewed this PR**
@@ -144,9 +145,10 @@ jobs:
                   - Component architecture and TypeScript implementation
                   - Test coverage and documentation completeness
 
-                  **Need specific feedback?** Mention `@claude` in a comment with your question.
+                  **Need specific feedback?** Mention \`@claude\` in a comment with your question.
 
                   ---
                   *Powered by [Anthropic Claude](https://www.anthropic.com/claude) | [GT Design System Guidelines](../CLAUDE.md)*
+                  `
               });
             }
