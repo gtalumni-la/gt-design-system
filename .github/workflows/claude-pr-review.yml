@@ -133,19 +133,20 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: `## 🤖 Claude AI Review
+                body: |
+                  ## 🤖 Claude AI Review
 
-✅ **Claude has reviewed this PR**
+                  ✅ **Claude has reviewed this PR**
 
-The AI code review has been completed. Check the review comments above for detailed feedback on:
-- Accessibility compliance and WCAG standards
-- Design system consistency and GT brand guidelines
-- Component architecture and TypeScript implementation
-- Test coverage and documentation completeness
+                  The AI code review has been completed. Check the review comments above for detailed feedback on:
+                  - Accessibility compliance and WCAG standards
+                  - Design system consistency and GT brand guidelines
+                  - Component architecture and TypeScript implementation
+                  - Test coverage and documentation completeness
 
-**Need specific feedback?** Mention \`@claude\` in a comment with your question.
+                  **Need specific feedback?** Mention `@claude` in a comment with your question.
 
----
-*Powered by [Anthropic Claude](https://www.anthropic.com/claude) | [GT Design System Guidelines](../CLAUDE.md)*`
+                  ---
+                  *Powered by [Anthropic Claude](https://www.anthropic.com/claude) | [GT Design System Guidelines](../CLAUDE.md)*
               });
             }

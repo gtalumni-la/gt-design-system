@@ -1,0 +1,235 @@
+name: 🧩 Component Request
+description: Request a new React component for the design system
+title: "[Component]: "
+labels: ["enhancement", "component", "needs-triage", "agent-ready"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This template is optimized for AI agent implementation.** Please provide detailed specifications to enable automated component generation.
+
+  - type: input
+    id: component-name
+    attributes:
+      label: 🧩 Component Name
+      description: What should this component be called? (PascalCase)
+      placeholder: "Button, Modal, Card, etc."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component-category
+    attributes:
+      label: 📂 Component Category
+      description: What type of component is this?
+      options:
+        - "Form Control (Input, Select, Checkbox, etc.)"
+        - "Layout (Container, Grid, Stack, etc.)"
+        - "Navigation (Menu, Breadcrumb, Tabs, etc.)"
+        - "Feedback (Alert, Toast, Modal, etc.)"
+        - "Display (Card, Badge, Avatar, etc.)"
+        - "Data (Table, List, Tree, etc.)"
+        - "Media (Image, Video, Icon, etc.)"
+        - "Typography (Heading, Text, Code, etc.)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: component-purpose
+    attributes:
+      label: 🎯 Component Purpose
+      description: What problem does this component solve? What's its primary use case?
+      placeholder: "This component will..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: component-api
+    attributes:
+      label: ⚙️ Component API Specification
+      description: Define the component props, variants, and behavior
+      render: typescript
+      placeholder: |
+        interface ComponentProps extends HTMLAttributes<HTMLElement> {
+          variant?: 'primary' | 'secondary' | 'outline';
+          size?: 'sm' | 'md' | 'lg';
+          disabled?: boolean;
+          children?: ReactNode;
+        }
+
+        // Usage examples:
+        <Component variant="primary" size="lg">Content</Component>
+        <Component disabled>Disabled state</Component>
+    validations:
+      required: true
+
+  - type: textarea
+    id: design-specs
+    attributes:
+      label: 🎨 Design Specifications
+      description: Visual design requirements (colors, spacing, typography, etc.)
+      placeholder: |
+        **Colors:** Use primary GT Gold (#B3A369) for default state
+        **Typography:** Body text with Roboto, 16px
+        **Spacing:** 12px padding, 8px border radius
+        **States:** Default, hover, active, disabled, focus
+        **Responsive:** Mobile-first approach
+    validations:
+      required: true
+
+  - type: textarea
+    id: accessibility-requirements
+    attributes:
+      label: ♿ Accessibility Requirements
+      description: Specific a11y requirements (WCAG 2.1 AA compliance is automatic)
+      placeholder: |
+        **ARIA:** aria-label, aria-expanded, etc.
+        **Keyboard:** Tab navigation, Enter/Space activation
+        **Screen Reader:** Proper announcements and descriptions
+        **Focus Management:** Visible focus indicators, logical tab order
+        **Color:** No color-only information conveyance
+    validations:
+      required: true
+
+  - type: dropdown
+    id: interaction-complexity
+    attributes:
+      label: 🔄 Interaction Complexity
+      description: How complex is the component's behavior?
+      options:
+        - "Static - No user interaction"
+        - "Simple - Basic click/hover interactions"
+        - "Moderate - Form controls, state changes"
+        - "Complex - Multiple states, keyboard navigation"
+        - "Advanced - Focus management, compound components"
+    validations:
+      required: true
+
+  - type: textarea
+    id: behavior-specification
+    attributes:
+      label: 🎭 Behavior Specification
+      description: Detailed interaction behavior and state management
+      placeholder: |
+        **Default State:** Component appears with...
+        **Hover State:** Background color changes to...
+        **Active State:** Component shows...
+        **Disabled State:** Component becomes non-interactive and...
+        **Focus State:** Clear focus indicator appears...
+        **Loading State:** (if applicable)
+        **Error State:** (if applicable)
+
+  - type: textarea
+    id: testing-requirements
+    attributes:
+      label: 🧪 Testing Requirements
+      description: Specific test cases that should be included
+      placeholder: |
+        **Unit Tests:**
+        - Renders with correct default props
+        - Handles all prop variations correctly
+        - Event handlers work as expected
+
+        **Accessibility Tests:**
+        - No axe violations
+        - Keyboard navigation works
+        - Screen reader announcements are correct
+        - Focus management is proper
+
+        **Visual Tests:**
+        - All variants render correctly
+        - Responsive behavior works
+        - State changes are visible
+
+  - type: textarea
+    id: storybook-stories
+    attributes:
+      label: 📚 Storybook Stories Required
+      description: What stories should be created for documentation?
+      placeholder: |
+        **Primary Stories:**
+        - Default
+        - All Variants (primary, secondary, outline)
+        - All Sizes (sm, md, lg)
+        - Disabled State
+
+        **Documentation Stories:**
+        - Kitchen Sink (all combinations)
+        - Interactive Example
+        - Usage Guidelines
+    validations:
+      required: true
+
+  - type: dropdown
+    id: design-tokens-usage
+    attributes:
+      label: 🎨 Design Tokens Usage
+      description: Which GT design tokens should this component use?
+      multiple: true
+      options:
+        - "Colors (GT Gold, GT Navy, semantics)"
+        - "Typography (font families, sizes, weights)"
+        - "Spacing (padding, margin, gaps)"
+        - "Border radius and borders"
+        - "Shadows and elevation"
+        - "Animation and motion"
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: 🔗 Dependencies
+      description: What other components or issues must be completed first?
+      placeholder: |
+        **Blocking Issues:** #17 (color palette expansion)
+        **Related Components:** Button component for actions
+        **Design System Requirements:** Typography tokens
+        **External Dependencies:** None
+
+  - type: dropdown
+    id: agent-implementation
+    attributes:
+      label: 🤖 Agent Implementation Readiness
+      description: How ready is this for AI agent implementation?
+      options:
+        - "Ready - Clear specification, can be implemented immediately"
+        - "Needs clarification - Some details need refinement"
+        - "Blocked - Waiting on dependencies"
+        - "Manual review required - Complex implementation"
+
+  - type: checkboxes
+    id: acceptance-criteria
+    attributes:
+      label: ✅ Acceptance Criteria
+      description: Component is complete when all of these are checked
+      options:
+        - label: Component implementation matches API specification
+          required: true
+        - label: All accessibility requirements met (WCAG 2.1 AA)
+          required: true
+        - label: Comprehensive test suite (unit + accessibility + visual)
+          required: true
+        - label: Complete Storybook documentation with all stories
+          required: true
+        - label: Design tokens properly integrated
+          required: true
+        - label: TypeScript types properly exported
+          required: true
+        - label: Component follows GT Design System patterns
+          required: true
+        - label: Responsive design implemented
+          required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 📋 Submission Checklist
+      description: Please confirm before submitting
+      options:
+        - label: I have provided complete API specification
+          required: true
+        - label: I have detailed accessibility requirements
+          required: true
+        - label: I have specified testing requirements
+          required: true
+        - label: I have checked this doesn't duplicate existing components
+          required: true
