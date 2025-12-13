@@ -58,7 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'GT Design System loaded. Remember: accessibility first, test everything, follow conventional commits.'"
+            "command": "echo 'GT Design System loaded. Remember: accessibility first, test everything, follow conventional commits. Specialized agents available in .claude/agents/ for component generation, accessibility auditing, Penpot sync, and release coordination.'"
           }
         ]
       }
@@ -73,5 +73,11 @@
     "test_failures": true,
     "accessibility_violations": true,
     "build_errors": true
+  },
+  "mcpServers": {
+    "penpot": {
+      "command": "/Users/angusp/workspace/@gtalumni-la/design-system/.mcp/start-penpot-mcp.sh",
+      "args": []
+    }
   }
 }

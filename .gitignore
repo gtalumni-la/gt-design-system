@@ -16,6 +16,9 @@ out/
 .env.production.local
 .env.penpot
 
+# MCP Configuration (keep local, don't commit)
+.mcp/
+
 # Turbo
 .turbo/
 
