@@ -150,12 +150,10 @@ runs:
           echo "⚠️ Security vulnerabilities detected"
           echo "security-status=vulnerabilities-found" >> $GITHUB_OUTPUT
           
-          # Extract vulnerability summary  
-          {
-            echo "AUDIT_RESULTS<<EOF"
-            cat audit-results.txt
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          # Extract vulnerability summary
+          echo "AUDIT_RESULTS<<EOF" >> $GITHUB_OUTPUT
+          cat audit-results.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
           
           echo "A GitHub issue will be created to track these vulnerabilities"
         fi
