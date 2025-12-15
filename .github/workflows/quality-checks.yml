@@ -68,9 +68,6 @@ jobs:
   quality-checks:
     name: Quality Checks
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
     outputs:
       lint-result: ${{ steps.quality-check.outputs.lint-result }}
       type-check-result: ${{ steps.quality-check.outputs.type-check-result }}
