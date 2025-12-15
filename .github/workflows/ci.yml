@@ -15,31 +15,7 @@ env:
   NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
-  # Job 1: Install dependencies and cache
-  setup:
-    name: Setup Dependencies
-    runs-on: ubuntu-latest
-    outputs:
-      node-cache-key: ${{ steps.cache-key.outputs.key }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-  # Job 2: Commit Message Validation (PR only)
+  # Job 1: Commit Message Validation (PR only)
   commitlint:
     name: Validate Commit Messages
     runs-on: ubuntu-latest
@@ -64,195 +40,28 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Validate current commit (PR title)
-        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
-        env:
-          INPUT_CONFIGFILE: commitlint.config.js
-
       - name: Validate all commits in PR
         if: github.event_name == 'pull_request'
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to HEAD --verbose
 
-  # Job 3: Linting and Code Quality
-  lint:
-    name: Lint & Code Quality
+  # Job 2: Core Quality Checks (replaces lint, typecheck, build, accessibility, audit)
+  quality-checks:
+    name: Quality Validation
+    uses: ./.github/workflows/quality-checks.yml
+    with:
+      node-version: '20'
+      fail-fast: false  # Run all checks for complete reporting
+    secrets: inherit
+
+  # Job 3: Cross-Platform Testing (Node.js Matrix)
+  cross-platform-tests:
+    name: Cross-Platform Tests
     runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run ESLint
-        run: pnpm lint --format=json --output-file=eslint-report.json
-        continue-on-error: true
-
-      - name: Run ESLint (for annotations)
-        run: pnpm lint
-
-      - name: Upload ESLint report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: eslint-report
-          path: eslint-report.json
-
-  # Job 4: Build
-  build:
-    name: Build Packages
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build packages
-        run: pnpm build
-
-      - name: Cache build outputs
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/build
-          key: build-${{ github.sha }}
-
-  # Job 4: Type Checking
-  typecheck:
-    name: Type Check
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Restore build outputs
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/build
-          key: build-${{ github.sha }}
-
-      - name: Run TypeScript type checking
-        run: pnpm type-check
-
-  # Job 6: Accessibility Testing
-  accessibility:
-    name: Accessibility Testing
-    runs-on: ubuntu-latest
-    needs: [setup, build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: pnpm --filter @gtalumni-la/react exec playwright install chromium
-
-      - name: Restore build outputs
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/build
-          key: build-${{ github.sha }}
-
-      - name: Run accessibility unit tests
-        run: pnpm --filter @gtalumni-la/react test a11y
-
-      - name: Build Storybook for accessibility audit
-        run: pnpm --filter @gtalumni-la/storybook docs:build
-
-      - name: Run Storybook accessibility audit
-        run: |
-          # Start HTTP server for Storybook
-          cd apps/storybook/storybook-static
-          python3 -m http.server 8080 &
-          SERVER_PID=$!
-          sleep 10
-          
-          # Return to root directory
-          cd ../../..
-          
-          # Run axe audit with Chromium
-          npx axe http://localhost:8080 --chrome-options="--no-sandbox,--disable-dev-shm-usage" --tags wcag2a,wcag2aa --reporter json > storybook-a11y-report.json || echo "Axe audit completed"
-          
-          # Kill the server
-          kill $SERVER_PID || true
-          
-      - name: Upload accessibility reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: accessibility-reports
-          path: |
-            storybook-a11y-report.json
-            packages/react/coverage/
-          retention-days: 7
-
-  # Job 7: Testing with Coverage
-  test:
-    name: Test & Coverage
-    runs-on: ubuntu-latest
-    needs: [setup, build]
+    needs: quality-checks
+    if: needs.quality-checks.outputs.test-result == 'success' && needs.quality-checks.outputs.build-result == 'success'
     strategy:
       matrix:
-        node-version: [18, 20, 22, 24]
+        node-version: [18, 22, 24]  # Skip 20 as it's covered in quality-checks
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -271,18 +80,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Restore build outputs
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/build
-          key: build-${{ github.sha }}
+      - name: Build packages (for Node.js ${{ matrix.node-version }})
+        run: pnpm build
 
       - name: Run tests with coverage
         run: pnpm test:ci
 
       - name: Generate coverage reports
+        if: matrix.node-version == '18'  # Only generate once
         run: |
           # Generate coverage summary for each package
           find packages -name "coverage" -type d | while read dir; do
@@ -313,11 +118,12 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
 
-  # Job 7: Package Audits
-  audit:
-    name: Security Audit
+  # Job 4: Enhanced Accessibility Testing with Storybook Audit
+  accessibility-audit:
+    name: Accessibility Audit
     runs-on: ubuntu-latest
-    needs: setup
+    needs: quality-checks
+    if: needs.quality-checks.outputs.accessibility-result == 'success' && needs.quality-checks.outputs.build-result == 'success'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -336,50 +142,115 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run security audit
-        run: pnpm audit --audit-level moderate
-        continue-on-error: true
+      - name: Build packages
+        run: pnpm build
 
-      - name: Check for outdated dependencies
-        run: pnpm outdated
-        continue-on-error: true
+      - name: Build Storybook for accessibility audit
+        run: pnpm --filter @gtalumni-la/storybook docs:build
 
-  # Job 9: Quality Gate
+      - name: Run Storybook accessibility audit
+        run: |
+          # Start HTTP server for Storybook
+          cd apps/storybook/storybook-static
+          python3 -m http.server 8080 &
+          SERVER_PID=$!
+          sleep 10
+
+          # Return to root directory
+          cd ../../..
+
+          # Run axe audit with Chromium
+          npx axe http://localhost:8080 --chrome-options="--no-sandbox,--disable-dev-shm-usage" --tags wcag2a,wcag2aa --reporter json > storybook-a11y-report.json || echo "Axe audit completed"
+
+          # Kill the server
+          kill $SERVER_PID || true
+
+      - name: Upload accessibility reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-reports
+          path: |
+            storybook-a11y-report.json
+          retention-days: 7
+
+  # Job 5: Build and Upload Storybook
+  storybook:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+    needs: quality-checks
+    if: needs.quality-checks.outputs.build-result == 'success'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Build Storybook
+        run: pnpm build --filter @gtalumni-la/storybook
+
+      - name: Upload Storybook artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: apps/storybook/storybook-static/
+          retention-days: 7
+
+  # Job 6: Quality Gate
   quality-gate:
     name: Quality Gate
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, build, accessibility, test]
+    needs: [quality-checks, cross-platform-tests, accessibility-audit]
     if: always()
     steps:
       - name: Check job results
         run: |
-          if [[ "${{ needs.lint.result }}" == "failure" ]]; then
+          if [[ "${{ needs.quality-checks.outputs.lint-result }}" == "failure" ]]; then
             echo "❌ Linting failed"
             exit 1
           fi
-          if [[ "${{ needs.typecheck.result }}" == "failure" ]]; then
+          if [[ "${{ needs.quality-checks.outputs.type-check-result }}" == "failure" ]]; then
             echo "❌ Type checking failed"
             exit 1
           fi
-          if [[ "${{ needs.build.result }}" == "failure" ]]; then
+          if [[ "${{ needs.quality-checks.outputs.build-result }}" == "failure" ]]; then
             echo "❌ Build failed"
             exit 1
           fi
-          if [[ "${{ needs.accessibility.result }}" == "failure" ]]; then
+          if [[ "${{ needs.quality-checks.outputs.accessibility-result }}" == "failure" ]]; then
             echo "❌ Accessibility tests failed"
             exit 1
           fi
-          if [[ "${{ needs.test.result }}" == "failure" ]]; then
+          if [[ "${{ needs.quality-checks.outputs.test-result }}" == "failure" ]]; then
             echo "❌ Tests failed"
+            exit 1
+          fi
+          if [[ "${{ needs.cross-platform-tests.result }}" == "failure" ]]; then
+            echo "❌ Cross-platform tests failed"
             exit 1
           fi
           echo "✅ All quality checks passed!"
 
-  # Job 10: Comment PR with Results
+  # Job 7: Comment PR with Results
   comment-pr:
     name: Comment PR Results
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, build, accessibility, test, audit]
+    needs: [quality-checks, cross-platform-tests, accessibility-audit, storybook]
     if: github.event_name == 'pull_request' && always()
     permissions:
       pull-requests: write
@@ -398,12 +269,14 @@ jobs:
 
           | Check | Status |
           |-------|--------|
-          | 🔍 Linting | ${{ needs.lint.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-          | 🏗️ Type Check | ${{ needs.typecheck.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-          | 📦 Build | ${{ needs.build.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-          | ♿ Accessibility | ${{ needs.accessibility.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-          | 🧪 Tests | ${{ needs.test.result == 'success' && '✅ Passed' || '❌ Failed' }} |
-          | 🔒 Security Audit | ${{ needs.audit.result == 'success' && '✅ Passed' || '⚠️ Check logs' }} |
+          | 🔍 Linting | ${{ needs.quality-checks.outputs.lint-result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | 🏗️ Type Check | ${{ needs.quality-checks.outputs.type-check-result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | 📦 Build | ${{ needs.quality-checks.outputs.build-result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | ♿ Accessibility | ${{ needs.quality-checks.outputs.accessibility-result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | 🧪 Unit Tests | ${{ needs.quality-checks.outputs.test-result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | 🌐 Cross-Platform Tests | ${{ needs.cross-platform-tests.result == 'success' && '✅ Passed' || needs.cross-platform-tests.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |
+          | 🔒 Security Audit | ${{ needs.quality-checks.outputs.security-result == 'success' && '✅ Passed' || '⚠️ Check logs' }} |
+          | 📚 Storybook Build | ${{ needs.storybook.result == 'success' && '✅ Passed' || '❌ Failed' }} |
 
           ### Test Coverage
           Coverage reports are available in the artifacts.
@@ -411,10 +284,13 @@ jobs:
           ### Accessibility Reports
           Accessibility testing reports (including Storybook audits) are available in the artifacts.
 
+          ### Security Status
+          ${{ needs.quality-checks.outputs.security-status == 'vulnerabilities-found' && '⚠️ Security vulnerabilities detected. A GitHub issue will be created automatically.' || '✅ No security vulnerabilities detected.' }}
+
           ### Next Steps
           EOF
 
-          if [[ "${{ needs.lint.result }}" == "failure" || "${{ needs.typecheck.result }}" == "failure" || "${{ needs.build.result }}" == "failure" || "${{ needs.accessibility.result }}" == "failure" || "${{ needs.test.result }}" == "failure" ]]; then
+          if [[ "${{ needs.quality-checks.outputs.lint-result }}" == "failure" || "${{ needs.quality-checks.outputs.type-check-result }}" == "failure" || "${{ needs.quality-checks.outputs.build-result }}" == "failure" || "${{ needs.quality-checks.outputs.accessibility-result }}" == "failure" || "${{ needs.quality-checks.outputs.test-result }}" == "failure" || "${{ needs.cross-platform-tests.result }}" == "failure" ]]; then
             echo "❌ This PR has failing checks. Please review the errors and fix them before merging." >> pr-comment.md
           else
             echo "✅ All checks passed! This PR is ready for review." >> pr-comment.md
@@ -433,7 +309,7 @@ jobs:
               issue_number: context.issue.number,
             });
 
-            const botComment = comments.find(comment => 
+            const botComment = comments.find(comment =>
               comment.user.type === 'Bot' && comment.body.includes('🔍 CI/CD Results')
             );
 
@@ -452,44 +328,3 @@ jobs:
                 body: comment
               });
             }
-
-  # Job 11: Storybook Build
-  storybook:
-    name: Build Storybook
-    runs-on: ubuntu-latest
-    needs: [setup, build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Restore build outputs
-        uses: actions/cache@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/build
-          key: build-${{ github.sha }}
-
-      - name: Build Storybook
-        run: pnpm build --filter @gtalumni-la/storybook
-
-      - name: Upload Storybook artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: storybook-static
-          path: apps/storybook/storybook-static/
-          retention-days: 7
