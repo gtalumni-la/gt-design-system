@@ -1,6 +1,14 @@
 {
   "previews": [
     {
+      "path": "pr-94",
+      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-94/",
+      "branch": "claude/update-claude-md-013X8fePisGTEbPXiXeRTZMT",
+      "pr": 94,
+      "commit": "6d8cd5a120300f2a6f54b441d4b8e7ff2647fee3",
+      "created": "2025-12-15T01:38:23.560Z"
+    },
+    {
       "path": "pr-93",
       "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-93/",
       "branch": "fix/documentation-site-issues-92",
@@ -151,14 +159,6 @@
       "pr": null,
       "commit": "30fd4b7541afaf04248cbccf6fc881c3779aa4d1",
       "created": "2025-08-13T05:04:04.053Z"
-    },
-    {
-      "path": "pr-55",
-      "url": "https://gtalumni-la.github.io/gt-design-system/preview/pr-55/",
-      "branch": "fix/storybook-base-path-github-pages",
-      "pr": 55,
-      "commit": "e739c8e28e8219f332618e9fd14defc97dbdb5f9",
-      "created": "2025-08-13T05:01:17.901Z"
     }
   ]
 }
