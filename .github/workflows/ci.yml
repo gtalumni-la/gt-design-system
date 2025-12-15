@@ -50,7 +50,7 @@ jobs:
     uses: ./.github/workflows/quality-checks.yml
     with:
       node-version: '20'
-      fail-fast: false  # Run all checks for complete reporting
+      fail-fast: false
     secrets: inherit
 
   # Job 3: Cross-Platform Testing (Node.js Matrix)
@@ -58,7 +58,7 @@ jobs:
     name: Cross-Platform Tests
     runs-on: ubuntu-latest
     needs: quality-checks
-    if: needs.quality-checks.outputs.test-result == 'success' && needs.quality-checks.outputs.build-result == 'success'
+    if: needs.quality-checks.outputs.test-result == 'success'
     strategy:
       matrix:
         node-version: [18, 22, 24]  # Skip 20 as it's covered in quality-checks
@@ -123,7 +123,7 @@ jobs:
     name: Accessibility Audit
     runs-on: ubuntu-latest
     needs: quality-checks
-    if: needs.quality-checks.outputs.accessibility-result == 'success' && needs.quality-checks.outputs.build-result == 'success'
+    if: needs.quality-checks.outputs.accessibility-result == 'success'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
