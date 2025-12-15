@@ -43,7 +43,7 @@ const config: StorybookConfig = {
     if (isGithubPagesEnv()) {
       return `
         ${head}
-        <base href="/storybook/">
+        <base href="/gt-design-system/storybook/">
       `;
     }
     return head;
@@ -51,7 +51,7 @@ const config: StorybookConfig = {
   viteFinal: (config) => {
     // Set base path for GitHub Pages deployment
     if (isGithubPagesEnv()) {
-      config.base = '/storybook/';
+      config.base = '/gt-design-system/storybook/';
     }
     return config;
   },
